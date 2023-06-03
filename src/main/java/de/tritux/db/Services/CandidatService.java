@@ -4,20 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import de.tritux.db.Exception.UserAlreadyExistsException;
+import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Recruteur;
+import de.tritux.db.entities.User;
 import de.tritux.db.repositories.CandidatRepository;
-
+import de.tritux.db.repositories.UserRepository;
 
 @Service
-public class CandidatService {
+public class CandidatService extends UserService {
+    private CandidatRepository candidatRepository;
 
-	private final CandidatRepository candidatRepository;
-
-    public CandidatService(CandidatRepository candidatRepository) {
+    public CandidatService(UserRepository userRepository, CandidatRepository candidatRepository) {
+        super(userRepository);
         this.candidatRepository = candidatRepository;
     }
-	
     public List<Candidat> getAllCandidat() {
         return candidatRepository.findAll();
     }
@@ -26,19 +28,20 @@ public class CandidatService {
         return candidatRepository.save(recruteur);
     }
 
+    public Candidat getOne(Integer id) {
+        return candidatRepository.findById(id).orElse(null);
+    }
 
-	public Candidat getOne(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Candidat saveCandidat(Candidat candidat) {
+        return candidatRepository.save(candidat);
+    }
 
-	public Candidat saveCandidat(Recruteur recruteur) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void deleteById(Integer id) {
+        candidatRepository.deleteById(id);
+    }
 
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
+    
+
+    
 }
+

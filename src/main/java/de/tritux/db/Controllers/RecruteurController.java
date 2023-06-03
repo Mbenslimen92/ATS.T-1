@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.tritux.db.Exception.UserAlreadyExistsException;
 import de.tritux.db.Services.RecruteurService;
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.entities.Recruteur;
@@ -63,6 +64,8 @@ public class RecruteurController {
 	public RecruteurService getRecruteurService() {
 		return recruteurService;
 	}
+	
+	
 	
 	
 	 @GetMapping("/offres/{offreId}")

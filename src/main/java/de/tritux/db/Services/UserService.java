@@ -5,13 +5,15 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import de.tritux.db.Exception.UserAlreadyExistsException;
+import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
+    
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -31,7 +33,7 @@ public class UserService {
 		return null;
 	}
 
-	public User saveUser(User user) {
+	public  User saveUser(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -42,29 +44,30 @@ public class UserService {
 	}
 	
 	
-	public void registerUser(User user) {
-        // Vérifiez si l'utilisateur existe déjà en utilisant l'adresse e-mail
-        Optional<User> existingUser = userRepository.findByMail(user.getMail());
-        if (existingUser.isPresent()) {
-            // Gérez le cas où l'utilisateur existe déjà
-            // Lancez une exception, renvoyez un message d'erreur, etc.
-        } else {
-            // Enregistrez le nouvel utilisateur
-            userRepository.save(user);
+	public void InscriptionUser(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
+        UserInscription userInscription = new UserInscription(null);
+        User newUser = userInscription.saveUser(nom, prenom, mail, tel, password);
+
+        try {
+            boolean registrationSuccess = userInscription.register(newUser);
+
+            if (registrationSuccess) {
+                System.out.println("Inscription réussie !");
+            } else {
+                System.out.println("L'inscription a échoué. Veuillez réessayer.");
+            }
+        } catch (UserAlreadyExistsException e) {
+            System.out.println("L'inscription a échoué. L'utilisateur existe déjà.");
         }
     }
-	
-	 public User[] getUsers() {
-	        
-	        User[] userList = {
-	            new User(1, "med", "benslimen", "benslimen92@gmail.com.com", (long) 22781222, "xxx"),
-	            new User(2, "yyy", "yyyy", "yyy@y.com", (long) 11111111, "yyy"),
-	            new User(3, "zzz", "zzzz", "zzz@y.com", (long) 22222222, "zzz")
-	        };
-	        
-	        return userList;
-	    }
-	
+    public void Userlogin(String mail, String password) {
+        if (UserAuthentication.authenticate(mail, password)) {
+            System.out.println("Connexion réussie.");
+        } else {
+            System.out.println("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
+        }
+    }
+
 }
 
 

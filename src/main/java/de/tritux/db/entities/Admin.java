@@ -7,6 +7,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import de.tritux.db.authentication.UserAuthentication;
+
 @Entity
 @DiscriminatorValue("admin")
 	public class Admin extends User {
@@ -52,17 +54,6 @@ import javax.persistence.OneToMany;
 		}
 
 		
-		
-	    public void login(String password) {
-	        if (authenticate(password)) {
-	            
-	            System.out.println("Connexion réussie en tant qu'administrateur.");
-	            System.out.println("Rôle : " + role);
-	        } else {
-	    
-	            System.out.println("Échec de la connexion en tant qu'administrateur. Veuillez vérifier vos informations d'identification.");
-	        }
-	    }
 		
 		@OneToMany(mappedBy = "admin")
 		private Set<User> users = new HashSet<>();

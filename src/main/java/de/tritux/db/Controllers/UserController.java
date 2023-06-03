@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.tritux.db.Exception.UserAlreadyExistsException;
 import de.tritux.db.Services.UserInscription;
 import de.tritux.db.Services.UserService;
+import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;
 
@@ -25,7 +27,7 @@ import de.tritux.db.repositories.UserRepository;
 @RequestMapping
 public class UserController {
 	
-	
+	UserService userService;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -64,28 +66,27 @@ public class UserController {
 	@Autowired
     private UserInscription userInscription;
 
-    @PostMapping("/inscription")
-    public ResponseEntity<String> registerUser(@RequestParam("nom") String nom,
-                                               @RequestParam("prenom") String prenom,
-                                               @RequestParam("mail") String mail,
-                                               @RequestParam("tel") Long tel,
-                                               @RequestParam("password") String password) {
-        User newUser = new User();
-        newUser.setnom(nom);
-        newUser.setPrenom(prenom);
-        newUser.setMail(mail);
-        newUser.setTel(tel);
-        newUser.setPassword(password);
-        
-        boolean registrationSuccess = userInscription.register(newUser);
-        
-        if (registrationSuccess) {
-            return ResponseEntity.ok("Inscription réussie !");
+	@PostMapping("/inscription")
+	public ResponseEntity<String> registerUser(@RequestBody User user) {
+	    try {
+	        userInscription.register(user);
+	        return ResponseEntity.ok("Inscription réussie !");
+	    } catch (UserAlreadyExistsException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	    }
+	}
+
+   
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam("mail") String mail, @RequestParam("password") String password) {
+        boolean authenticated = UserAuthentication.authenticate(mail, password);
+        if (authenticated) {
+            return ResponseEntity.ok("Authentication successful");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'inscription.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
         }
     }
-    
+
     
 }
 	

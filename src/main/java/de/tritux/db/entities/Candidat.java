@@ -7,6 +7,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import de.tritux.db.authentication.UserAuthentication;
+
 @Entity
 @DiscriminatorValue("candidat")
 public class Candidat extends User{
@@ -69,17 +71,16 @@ public void setRole(String role) {
 }
 
 
-public void login(String password) {
-    if (authenticate(password)) {
-        // Authentification réussie, effectuer les actions spécifiques au Candidat
-        System.out.println("Connexion réussie en tant que candidat.");
-        System.out.println("Compétences : " + skills);
+public void login(String mail, String password) {
+    if (UserAuthentication.authenticate(mail, password)) {
+        System.out.println("Connexion réussie en tant que Candidat.");
         System.out.println("Rôle : " + role);
     } else {
-        // Authentification échouée, gérer l'erreur
-        System.out.println("Échec de la connexion en tant que candidat. Veuillez vérifier vos informations d'identification.");
+        System.out.println("Échec de la connexion en tant que Candidat. Veuillez vérifier vos informations d'identification.");
     }
 }
+
+
 
 
 

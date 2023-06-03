@@ -9,6 +9,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import javax.persistence.OneToMany;
+
+import de.tritux.db.authentication.UserAuthentication;
 @Entity
 @DiscriminatorValue("recruteur")
 public class Recruteur extends User {
@@ -60,17 +62,7 @@ public class Recruteur extends User {
 		this.role = role;
 	}
 	
-	public void login(String password) {
-        if (authenticate(password)) {
-            // Authentification réussie, effectuer les actions spécifiques au Recruteur
-            System.out.println("Connexion réussie en tant que recruteur.");
-           
-            System.out.println("Rôle : " + role);
-        } else {
-            // Authentification échouée, gérer l'erreur
-            System.out.println("Échec de la connexion en tant que recruteur. Veuillez vérifier vos informations d'identification.");
-        }
-    }
+	
 
 	
 	@OneToMany(mappedBy = "recruteur")

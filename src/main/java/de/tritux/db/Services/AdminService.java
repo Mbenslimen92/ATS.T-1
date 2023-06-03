@@ -4,17 +4,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import de.tritux.db.Exception.UserAlreadyExistsException;
+import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.Admin;
-
+import de.tritux.db.entities.User;
 import de.tritux.db.repositories.AdminRepository;
+import de.tritux.db.repositories.UserRepository;
 
 
 @Service
-public class AdminService {
+public class AdminService extends UserService {
+    private final AdminRepository adminRepository;
 
-	private final AdminRepository adminRepository;
-
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(UserRepository userRepository, AdminRepository adminRepository) {
+        super(userRepository);
         this.adminRepository = adminRepository;
     }
 	
@@ -41,4 +44,7 @@ public class AdminService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+
 }
