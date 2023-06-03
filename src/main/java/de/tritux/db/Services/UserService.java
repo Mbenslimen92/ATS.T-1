@@ -12,37 +12,14 @@ import de.tritux.db.repositories.UserRepository;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    public final UserRepository userRepository;
     
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
    
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-
-	public User getOne(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public  User saveUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+   
 	
 	public void InscriptionUser(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
         UserInscription userInscription = new UserInscription(null);

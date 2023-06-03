@@ -39,7 +39,7 @@ private String password;
 		this.prenom = prenom;
 		this.mail = mail;
 		this.tel = tel;
-		this.password = password;
+		this.setPassword(password);
 	}
 
 	public User() {
@@ -80,6 +80,15 @@ private String password;
 	}
 	
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 	@ManyToOne
 	@JoinColumn(name="admin_id")
 		  private Admin admin;
@@ -87,21 +96,9 @@ private String password;
 
 
 
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setPassword(String encodedPassword) {
-		// TODO Auto-generated method stub
-		
-	}
-	   
+	
 	     
 	
-	public boolean authenticate(String password) {
-          return this.password.equals(password);
-    }
     
 	
 	
