@@ -66,4 +66,11 @@ public class Candidature {
     @ManyToOne
     @JoinColumn(name = "emploi_id")
     private Emploi emploi;
+
+
+
+	public void setTitrePoste(String titrePoste) {
+		// TODO Auto-generated method stub
+		
+	}
 }

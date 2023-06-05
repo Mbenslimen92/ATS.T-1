@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import de.tritux.db.Exception.UserAlreadyExistsException;
-import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Recruteur;
-import de.tritux.db.entities.User;
+
 import de.tritux.db.repositories.CandidatRepository;
 import de.tritux.db.repositories.UserRepository;
 
@@ -20,6 +18,7 @@ public class CandidatService extends UserService {
         super(userRepository);
         this.candidatRepository = candidatRepository;
     }
+
     public List<Candidat> getAllCandidat() {
         return candidatRepository.findAll();
     }
@@ -29,7 +28,8 @@ public class CandidatService extends UserService {
     }
 
     public Candidat getOne(Integer id) {
-        return candidatRepository.findById(id).orElse(null);
+        Integer candidatId = id; // Déclaration et initialisation de candidatId
+        return candidatRepository.findById(candidatId).orElse(null);
     }
 
     public Candidat saveCandidat(Candidat candidat) {
@@ -39,9 +39,4 @@ public class CandidatService extends UserService {
     public void deleteById(Integer id) {
         candidatRepository.deleteById(id);
     }
-
-    
-
-    
 }
-

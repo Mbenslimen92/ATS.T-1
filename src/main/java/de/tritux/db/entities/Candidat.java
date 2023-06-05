@@ -7,89 +7,99 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import de.tritux.db.authentication.UserAuthentication;
 
 @Entity
 @DiscriminatorValue("candidat")
-public class Candidat extends User{
+public class Candidat extends User {
 
+    private String resume; // Résumé du profil du candidat
+    private String universite; // Université fréquentée par le candidat
+    private String currentJob; // Poste actuel du candidat
+    private String role; // Rôle ou fonction du candidat
 
-private String Resumé;
-private String université;
-private String CurrentJob;
-private String role;
+    
 
-
-
-
-
-
-public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resumé,
-		String université, String currentJob, String role, Set<Candidature> candidatures, Set<Skills> skills,
-		Set<Experience> experiences) {
-	super(id, nom, prenom, mail, tel, password);
-	Resumé = resumé;
-	this.université = université;
-	CurrentJob = currentJob;
-	this.role = role;
-	this.candidatures = candidatures;
-	this.skills = skills;
-	this.experiences = experiences;
-}
-
-
-public Candidat() {
-	super();
-	// TODO Auto-generated constructor stub
-}
-
-
-public String getResumé() {
-	return Resumé;
-}
-public void setResumé(String resumé) {
-	Resumé = resumé;
-}
-public String getUniversité() {
-	return université;
-}
-public void setUniversité(String université) {
-	this.université = université;
-}
-public String getCurrentJob() {
-	return CurrentJob;
-}
-public void setCurrentJob(String currentJob) {
-	CurrentJob = currentJob;
-}
-
-public String getRole() {
-	return role;
-}
-public void setRole(String role) {
-	this.role = role;
-}
-
-
-public void login(String mail, String password) {
-    if (UserAuthentication.authenticate(mail, password)) {
-        System.out.println("Connexion réussie en tant que Candidat.");
-        System.out.println("Rôle : " + role);
-    } else {
-        System.out.println("Échec de la connexion en tant que Candidat. Veuillez vérifier vos informations d'identification.");
+    public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resume,
+            String universite, String currentJob, String role) {
+        super(id, nom, prenom, mail, tel, password);
+        this.resume = resume;
+        this.universite = universite;
+        this.currentJob = currentJob;
+        this.role = role;
     }
-}
+
+    public Candidat() {
+        super();
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
+    public String getUniversite() {
+        return universite;
+    }
+
+    public void setUniversite(String universite) {
+        this.universite = universite;
+    }
+
+    public String getCurrentJob() {
+        return currentJob;
+    }
+
+    public void setCurrentJob(String currentJob) {
+        this.currentJob = currentJob;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Set<Candidature> getCandidatures() {
+        return candidatures;
+    }
+
+    public void setCandidatures(Set<Candidature> candidatures) {
+        this.candidatures = candidatures;
+    }
+
+    public Set<Skills> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skills> skills) {
+        this.skills = skills;
+    }
+
+    public Set<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(Set<Experience> experiences) {
+        this.experiences = experiences;
+    }
+    @OneToMany(mappedBy = "candidat")
+    private Set<Candidature> candidatures = new HashSet<>();
+
+    @OneToMany(mappedBy = "candidat")
+    private Set<Skills> skills = new HashSet<>();
+
+    @OneToMany(mappedBy = "candidat")
+    private Set<Experience> experiences = new HashSet<>();
 
 
 
-
-
-@OneToMany(mappedBy = "candidat")
-private Set<Candidature> candidatures = new HashSet<>();
-
-@OneToMany(mappedBy = "candidat")
-private Set<Skills> skills = new HashSet<>();
-
-@OneToMany(mappedBy = "candidat")
-private Set<Experience> experiences = new HashSet<>();
+	public Candidat orElseThrow(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import de.tritux.db.Exception.UserAlreadyExistsException;
-import de.tritux.db.authentication.UserAuthentication;
+
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.entities.Recruteur;
-import de.tritux.db.entities.User;
 import de.tritux.db.repositories.EmploiRepository;
 import de.tritux.db.repositories.RecruteurRepository;
 import de.tritux.db.repositories.UserRepository;
@@ -72,7 +70,7 @@ public class RecruteurService extends UserService{
 
         emploi.setTitre(emploiModifier.getTitre());
         emploi.setDescription(emploiModifier.getDescription());
-        emploi.setDate_de_publication(emploiModifier.getDate_de_publication());
+        emploi.setDateDePublication(emploiModifier.getDateDePublication());
 
         return emploiRepository.save(emploi);
     }
@@ -90,27 +88,5 @@ public class RecruteurService extends UserService{
 
 	
 }
-/*public void register(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
-        UserInscription userInscription = new UserInscription(null);
-        User newUser = userInscription.saveUser(nom, prenom, mail, tel, password);
 
-        try {
-            boolean registrationSuccess = userInscription.register(newUser);
-
-            if (registrationSuccess) {
-                System.out.println("Inscription réussie !");
-            } else {
-                System.out.println("L'inscription a échoué. Veuillez réessayer.");
-            }
-        } catch (UserAlreadyExistsException e) {
-            System.out.println("L'inscription a échoué. L'utilisateur existe déjà.");
-        }
-    }
-    public void login(String mail, String password) {
-        if (UserAuthentication.authenticate(mail, password)) {
-            System.out.println("Connexion réussie en tant que Recruteur");
-        } else {
-            System.out.println("Échec de la connexion en tant que Recruteur. Veuillez vérifier vos informations d'identification.");
-        }
-    }*/
 

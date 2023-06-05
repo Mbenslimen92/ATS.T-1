@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 
 import javax.persistence.OneToMany;
 
-import de.tritux.db.authentication.UserAuthentication;
 @Entity
 @DiscriminatorValue("recruteur")
 public class Recruteur extends User {

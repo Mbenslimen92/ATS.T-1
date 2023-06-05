@@ -18,7 +18,7 @@ import de.tritux.db.Services.UserInscription;
 import de.tritux.db.Services.UserService;
 import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
-import de.tritux.db.repositories.UserRepository;
+
 
 @RestController
 @RequestMapping
@@ -26,8 +26,6 @@ public class UserController {
 	
 	UserService userService;
 	
-	@Autowired
-	private UserRepository userRepository;
 
 
 	
