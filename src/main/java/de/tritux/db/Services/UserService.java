@@ -5,6 +5,7 @@ package de.tritux.db.Services;
 import org.springframework.stereotype.Service;
 
 import de.tritux.db.Exception.UserAlreadyExistsException;
+import de.tritux.db.Inscription.UserInscription;
 import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;

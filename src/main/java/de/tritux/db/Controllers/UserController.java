@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Exception.UserAlreadyExistsException;
-import de.tritux.db.Services.UserInscription;
+import de.tritux.db.Inscription.UserInscription;
 import de.tritux.db.Services.UserService;
 import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
     private UserInscription userInscription;
 
-	@PostMapping("/inscription")
+	/*@PostMapping("/inscription")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 	    try {
 	        userInscription.register(user);
@@ -44,7 +44,22 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	    }
 	}
+*/
+	
+	@PostMapping("/inscription")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        try {
+            boolean registrationSuccess = userInscription.register(user);
 
+            if (registrationSuccess) {
+                return ResponseEntity.ok("Inscription réussie !");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("L'inscription a échoué. Veuillez réessayer.");
+            }
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
    
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam("mail") String mail, @RequestParam("password") String password) {
