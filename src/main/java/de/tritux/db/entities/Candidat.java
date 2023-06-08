@@ -15,20 +15,27 @@ public class Candidat extends User {
     private String resume; // Résumé du profil du candidat
     private String universite; // Université fréquentée par le candidat
     private String currentJob; // Poste actuel du candidat
+    private String profilLinkedIn;
     private String role; // Rôle ou fonction du candidat
 
     
 
-    public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resume,
-            String universite, String currentJob, String role) {
-        super(id, nom, prenom, mail, tel, password);
-        this.resume = resume;
-        this.universite = universite;
-        this.currentJob = currentJob;
-        this.role = role;
-    }
 
-    public Candidat() {
+    public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resume,
+			String universite, String currentJob, String profilLinkedIn, String role, Set<Candidature> candidatures,
+			Set<Skills> skills, Set<Experience> experiences) {
+		super(id, nom, prenom, mail, tel, password);
+		this.resume = resume;
+		this.universite = universite;
+		this.currentJob = currentJob;
+		this.profilLinkedIn = profilLinkedIn;
+		this.role = role;
+		this.candidatures = candidatures;
+		this.skills = skills;
+		this.experiences = experiences;
+	}
+
+	public Candidat() {
         super();
     }
 
@@ -101,5 +108,13 @@ public class Candidat extends User {
 	public Candidat orElseThrow(Object object) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getProfilLinkedIn() {
+		return profilLinkedIn;
+	}
+
+	public void setProfilLinkedIn(String profilLinkedIn) {
+		this.profilLinkedIn = profilLinkedIn;
 	}
 }

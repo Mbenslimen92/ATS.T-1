@@ -47,7 +47,7 @@ public class UserController {
 */
 	
 	@PostMapping("/inscription")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<String> InscriptionUser(@RequestBody User user) {
         try {
             boolean registrationSuccess = userInscription.register(user);
 

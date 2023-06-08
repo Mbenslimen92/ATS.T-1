@@ -28,7 +28,7 @@ public class CandidatService extends UserService {
     }
 
     public Candidat getOne(Integer id) {
-        Integer candidatId = id; // Déclaration et initialisation de candidatId
+        Integer candidatId = id; 
         return candidatRepository.findById(candidatId).orElse(null);
     }
 
