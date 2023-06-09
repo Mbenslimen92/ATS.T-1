@@ -17,5 +17,6 @@ public interface CandidatRepository extends JpaRepository<Candidat,Integer> {
 
 	List<Candidat> findByResumeContaining(String resume);
 
-	
+
+
 }

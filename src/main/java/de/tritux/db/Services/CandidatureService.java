@@ -32,8 +32,150 @@ import java.util.ArrayList;
 
 
 
-
 @Service
+public class CandidatureService {
+
+    private CandidatRepository candidatRepository;
+    private EmploiRepository emploiRepository;
+    private CandidatureRepository candidatureRepository;
+
+    public CandidatureService(CandidatRepository candidatRepository, EmploiRepository emploiRepository, CandidatureRepository candidatureRepository) {
+        this.candidatRepository = candidatRepository;
+        this.emploiRepository = emploiRepository;
+        this.candidatureRepository = candidatureRepository;
+    }
+
+    public Candidature postulerOffreEmploi(Integer candidatId, Integer emploiId) {
+        Candidat candidat = candidatRepository.findById(candidatId)
+                .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
+
+        Emploi emploi = emploiRepository.findById(emploiId)
+                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+
+        Candidature candidature = new Candidature();
+        candidature.setCandidat(candidat);
+        candidature.setEmploi(emploi);
+        candidatureRepository.save(candidature);
+
+        return candidature;
+    }
+
+    public void processLinkedInCandidature(String src, Integer emploiId) throws IOException {
+        if (src != null && src.startsWith("https://www.linkedin.com")) {
+            Candidat candidat = extractCandidateInformation(src);
+            Emploi emploi = emploiRepository.findById(emploiId)
+                    .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+
+            Candidature nouvelleCandidature = new Candidature();
+            nouvelleCandidature.setCandidat(candidat);
+            nouvelleCandidature.setEmploi(emploi);
+
+            if (!candidatureRepository.existsByCandidatAndEmploi(candidat, emploi)) {
+                candidatureRepository.save(nouvelleCandidature);
+            }
+
+            List<Candidat> relevantCandidates = candidatRepository.findByResumeContaining(candidat.getResume());
+
+            for (Candidat relevantCandidate : relevantCandidates) {
+                if (!candidatureRepository.existsByCandidatAndEmploi(relevantCandidate, emploi)) {
+                    Candidature relevantCandidature = new Candidature();
+                    relevantCandidature.setCandidat(relevantCandidate);
+                    relevantCandidature.setEmploi(emploi);
+                    candidatureRepository.save(relevantCandidature);
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Source de candidature non prise en charge");
+        }
+    }
+
+    public Candidat extractCandidateInformation(String profileUrl) throws IOException {
+        Document document = Jsoup.connect(profileUrl).get();
+
+        String nom = document.select("span.full-name").text();
+        String resume = document.select("p.resume").text();
+
+        Candidat candidat = new Candidat();
+        candidat.setnom(nom);
+        candidat.setResume(resume);
+
+        return candidat;
+    }
+
+    public void saveCandidates(List<Candidat> candidates, Integer emploiId, List<String> motsCles) {
+        Emploi emploi = emploiRepository.findById(emploiId)
+                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+
+        for (Candidat candidat : candidates) {
+            List<Candidat> relevantCandidates = candidatRepository.findByResumeContaining(candidat.getResume());
+
+            for (Candidat relevantCandidate : relevantCandidates) {
+                Candidature candidature = new Candidature();
+                candidature.setCandidat(relevantCandidate);
+                candidature.setEmploi(emploi);
+
+                if (!candidatureRepository.existsByCandidatAndEmploi(relevantCandidate, emploi)) {
+                    candidatureRepository.save(candidature);
+                }
+            }
+        }
+    }
+
+
+
+    
+    
+    public List<Candidat> rechercherCandidats(List<String> motsCles) {
+        List<Candidat> candidatsPertinents = new ArrayList<>();
+
+        for (Candidat candidat : candidatRepository.findAll()) {
+            String resumeCandidat = candidat.getResume();
+
+            // Vérifier si le résumé du candidat contient au moins un des mots-clés
+            for (String motCle : motsCles) {
+                if (resumeCandidat.toLowerCase().contains(motCle.toLowerCase())) {
+                    candidatsPertinents.add(candidat);
+                    break; // Sortir de la boucle dès qu'un mot-clé est trouvé
+                }
+            }
+        }
+
+        return candidatsPertinents;
+    }
+
+
+    public List<Candidature> getCandidaturesByEmploiId(Integer emploiId) {
+        Emploi emploi = emploiRepository.findById(emploiId)
+                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+
+        return candidatureRepository.findByEmploi(emploi);
+    }
+
+    public void deleteCandidature(Integer candidatureId) {
+        candidatureRepository.deleteById(candidatureId);
+    }
+
+    public Candidature getCandidatureById(Integer candidatureId) {
+        return candidatureRepository.findById(candidatureId)
+                .orElseThrow(() -> new NotFoundException("Candidature introuvable"));
+    }
+
+    public List<Candidature> getCandidaturesByCandidatId(Integer candidatId) {
+        Candidat candidat = candidatRepository.findById(candidatId)
+                .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
+
+        return candidatureRepository.findByCandidat(candidat);
+    }
+
+    public List<Candidature> getAllCandidatures() {
+        return candidatureRepository.findAll();
+    }
+}
+
+
+
+
+/*@Service
 public class CandidatureService {
     
     private CandidatRepository candidatRepository;
@@ -46,8 +188,6 @@ public class CandidatureService {
         this.candidatureRepository = candidatureRepository;
     }
     
-    
-    
     public Candidature postulerOffreEmploi(Integer candidatId, Integer emploiId) {
         Candidat candidat = candidatRepository.findById(candidatId)
                 .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
@@ -58,10 +198,13 @@ public class CandidatureService {
         Candidature candidature = new Candidature();
         candidature.setCandidat(candidat);
         candidature.setEmploi(emploi);
+        candidat.setResume(candidat.getResume());
+        candidatureRepository.save(candidature);
 
-        return candidatureRepository.save(candidature);
+        return candidature;
     }
-
+    
+   
     
     
     public void processLinkedInCandidature(String src, Integer emploiId) throws IOException {
@@ -69,8 +212,9 @@ public class CandidatureService {
 
         if (src != null && src.startsWith("https://www.linkedin.com")) {
             // Scraper les informations du profil LinkedIn
-            Integer candidatId = candidature.getCandidat().getId();
-            Candidat candidat = candidatRepository.findById(candidatId)
+            Candidat candidat = candidature.getCandidat();
+            Integer candidatId = candidat.getId();
+            Candidat candidatById = candidatRepository.findById(candidatId)
                     .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
 
             String profilLinkedInUrl = src;
@@ -92,21 +236,25 @@ public class CandidatureService {
             nouvelleCandidature.getCandidat().setnom(nom); // Set the nom attribute of the Candidat class
             nouvelleCandidature.getCandidat().setResume(resume); // Set the resume attribute of the Candidat class
 
-            // Sauvegarder la candidature dans la base de données
-            candidatureRepository.save(nouvelleCandidature);
+            // Sauvegarder la candidature dans la base de données s'il n'existe pas déjà
+            if (!candidatureRepository.existsByCandidatAndEmploi(candidat, emploi)) {
+                candidatureRepository.save(nouvelleCandidature);
+            }
 
             // Extract relevant candidates based on job description
             // Utilize other attributes such as resume or universite for relevance criteria
             List<Candidat> relevantCandidates = candidatRepository.findByResumeContaining(resume);
 
-            // Create and save Candidature for each relevant candidate
+            // Create and save Candidature for each relevant candidate if it doesn't exist already
             for (Candidat relevantCandidate : relevantCandidates) {
-                Candidature relevantCandidature = new Candidature();
-                relevantCandidature.setCandidat(relevantCandidate);
-                relevantCandidature.setEmploi(emploi);
-                relevantCandidature.getCandidat().setnom(relevantCandidate.getnom());
-                relevantCandidature.getCandidat().setResume(relevantCandidate.getResume());
-                candidatureRepository.save(relevantCandidature);
+                if (!candidatureRepository.existsByCandidatAndEmploi(relevantCandidate, emploi)) {
+                    Candidature relevantCandidature = new Candidature();
+                    relevantCandidature.setCandidat(relevantCandidate);
+                    relevantCandidature.setEmploi(emploi);
+                    relevantCandidature.getCandidat().setnom(relevantCandidate.getnom());
+                    relevantCandidature.getCandidat().setResume(relevantCandidate.getResume());
+                    candidatureRepository.save(relevantCandidature);
+                }
             }
         } else {
             // Gérer d'autres sources de candidature ou renvoyer une exception si aucune source n'est spécifiée
@@ -140,23 +288,21 @@ public class CandidatureService {
             String headline = profileJson.getString("headline");
             String profileUrl = profileJson.getString("profileUrl");
 
-            // Create a new Candidat object and populate it with the extracted information
+            // Create a new Candidate object and populate it with the extracted information
             Candidat candidat = new Candidat();
             candidat.setnom(fullName);
             candidat.setResume(headline);
             candidat.setProfilLinkedIn(profileUrl);
 
-            // Add the candidat to the list of candidates
-            candidates.add(candidat);
+            // Add the candidate to the list of candidates if it doesn't exist already
+            if (!candidates.contains(candidat)) {
+                candidates.add(candidat);
+            }
         }
 
         // Return the list of extracted candidates
         return candidates;
     }
-
-    
-    
-
 
     public Candidat extractCandidateInformation(String profileUrl) throws IOException {
         Document document = Jsoup.connect(profileUrl).get();
@@ -167,8 +313,6 @@ public class CandidatureService {
         Candidat candidat = new Candidat();
         candidat.setnom(nom);
         candidat.setResume(resume);
-
-        // Autres extractions d'informations du profil LinkedIn si nécessaire
 
         return candidat;
     }
@@ -181,10 +325,13 @@ public class CandidatureService {
             Candidature candidature = new Candidature();
             candidature.setCandidat(candidat);
             candidature.setEmploi(emploi);
-            candidatureRepository.save(candidature);
+            
+            // Save the candidature only if it doesn't exist already
+            if (!candidatureRepository.existsByCandidatAndEmploi(candidat, emploi)) {
+                candidatureRepository.save(candidature);
+            }
         }
     }
-
 
 
 	public List<Candidature> getCandidaturesByEmploiId(Integer emploiId) {
@@ -222,17 +369,6 @@ public class CandidatureService {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 

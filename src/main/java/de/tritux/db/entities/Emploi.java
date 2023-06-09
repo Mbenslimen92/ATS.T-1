@@ -1,48 +1,58 @@
 package de.tritux.db.entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import de.tritux.db.MotCle.MotCle;
 
 @Entity
 public class Emploi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+     Integer id;
     
-    private String titre;
+     String titre;
     @Column(name = "description")
-    private String description;
-    private Date dateDePublication;
-   
-    
-    
-    @Column(name = "src")
+     String description;
+     Date dateDePublication;
+     private String motsCles;
+     @Column(name = "src")
     private String src;
     
-    // Constructeurs, getters et setters
 
     public Emploi() {
         super();
     }
 
-    public Emploi(Integer id, String titre, String description, Date dateDePublication) {
-        this.id = id;
-        this.titre = titre;
-        this.description = description;
-        this.dateDePublication = dateDePublication;
-    }
+    
+    public Emploi(Integer id, String titre, String description, Date dateDePublication,
+			String motsCles, String src, Recruteur recruteur, Set<Candidature> candidatures) {
+		super();
+		this.id = id;
+		this.titre = titre;
+		this.description = description;
+		this.dateDePublication = dateDePublication;
+		this.motsCles = motsCles;
+		this.src = src;
+		this.recruteur = recruteur;
+		this.candidatures = candidatures;
+	}
 
-    public Integer getId() {
+
+	public Integer getId() {
         return id;
     }
 
@@ -97,10 +107,20 @@ public class Emploi {
     public void setSrc(String src) {
         this.src = src;
     }
-    @ManyToOne
+    
+	
+	@ManyToOne
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
     
     @OneToMany(mappedBy = "emploi")
     private Set<Candidature> candidatures = new HashSet<>();
+    @ManyToMany
+    private List<MotCle> motsCles1;
+
+
+	public void setMotsCles(List<String> motCles) {
+		// TODO Auto-generated method stub
+		
+	}
 }

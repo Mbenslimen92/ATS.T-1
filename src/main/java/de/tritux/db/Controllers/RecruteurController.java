@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Exception.UserAlreadyExistsException;
+import de.tritux.db.Services.EmploiService;
 import de.tritux.db.Services.RecruteurService;
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.entities.Recruteur;
@@ -25,11 +26,13 @@ import de.tritux.db.repositories.RecruteurRepository;
 public class RecruteurController {
 	
 	
-	 private final RecruteurService recruteurService;
+	private final RecruteurService recruteurService;
+    private final EmploiService emploiService;
 
-	    public RecruteurController(RecruteurService recruteurService) {
-	        this.recruteurService = recruteurService;
-	    }
+    public RecruteurController(RecruteurService recruteurService, EmploiService emploiService) {
+        this.recruteurService = recruteurService;
+        this.emploiService = emploiService;
+    }
 
     
 	
@@ -97,5 +100,12 @@ public class RecruteurController {
 	        List<Emploi> offresEmploi = recruteurService.obtenirTousLesOffresEmploi();
 	        return ResponseEntity.ok(offresEmploi);
 	    }
+	    
+	    @PostMapping("/emplois/{emploiId}/motscles")
+	    public void ajouterMotsClesEmploi(@PathVariable Integer emploiId, @RequestBody List<String> motCles) {
+	        recruteurService.ajouterMotsClesEmploi(emploiId, motCles);
+	    }
+
+
 	}
 
