@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.tritux.db.Exception.UserAlreadyExistsException;
 import de.tritux.db.Services.EmploiService;
 import de.tritux.db.Services.RecruteurService;
 import de.tritux.db.entities.Emploi;
@@ -27,11 +26,9 @@ public class RecruteurController {
 	
 	
 	private final RecruteurService recruteurService;
-    private final EmploiService emploiService;
 
     public RecruteurController(RecruteurService recruteurService, EmploiService emploiService) {
         this.recruteurService = recruteurService;
-        this.emploiService = emploiService;
     }
 
     
@@ -68,8 +65,15 @@ public class RecruteurController {
 		return recruteurService;
 	}
 	
+// Partie Emploi	
 	
 	
+	
+	@GetMapping("/offres")
+    public ResponseEntity<List<Emploi>> obtenirTousLesOffresEmploi() {
+        List<Emploi> offresEmploi = recruteurService.obtenirTousLesOffresEmploi();
+        return ResponseEntity.ok(offresEmploi);
+    }
 	
 	 @GetMapping("/offres/{offreId}")
 	    public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer offreId) {
@@ -95,17 +99,9 @@ public class RecruteurController {
 	        return ResponseEntity.noContent().build();
 	    }
 
-	    @GetMapping("/offres")
-	    public ResponseEntity<List<Emploi>> obtenirTousLesOffresEmploi() {
-	        List<Emploi> offresEmploi = recruteurService.obtenirTousLesOffresEmploi();
-	        return ResponseEntity.ok(offresEmploi);
-	    }
 	    
-	    @PostMapping("/emplois/{emploiId}/motscles")
-	    public void ajouterMotsClesEmploi(@PathVariable Integer emploiId, @RequestBody List<String> motCles) {
-	        recruteurService.ajouterMotsClesEmploi(emploiId, motCles);
-	    }
-
+	    
+	    
 
 	}
 

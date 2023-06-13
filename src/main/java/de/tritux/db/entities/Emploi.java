@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -45,7 +45,7 @@ public class Emploi {
 		this.titre = titre;
 		this.description = description;
 		this.dateDePublication = dateDePublication;
-		this.motsCles = motsCles;
+		this.setMotsCles(motsCles);
 		this.src = src;
 		this.recruteur = recruteur;
 		this.candidatures = candidatures;
@@ -115,12 +115,27 @@ public class Emploi {
     
     @OneToMany(mappedBy = "emploi")
     private Set<Candidature> candidatures = new HashSet<>();
+    
+    
     @ManyToMany
+    @JoinTable(name = "emploi_motcle",
+        joinColumns = @JoinColumn(name = "emploi_id"),
+        inverseJoinColumns = @JoinColumn(name = "motcle_id"))
     private List<MotCle> motsCles1;
 
 
 	public void setMotsCles(List<String> motCles) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public String getMotsCles() {
+		return motsCles;
+	}
+
+
+	public void setMotsCles(String motsCles) {
+		this.motsCles = motsCles;
 	}
 }

@@ -1,6 +1,5 @@
 package de.tritux.db.Controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import de.tritux.db.entities.Candidature;
 
 @RestController
 @RequestMapping("/candidatures")
+
 public class CandidatureController {
 
     private CandidatureService candidatureService;
@@ -24,48 +24,45 @@ public class CandidatureController {
     public CandidatureController(CandidatureService candidatureService) {
         this.candidatureService = candidatureService;
     }
-    
-    
 
-    @PostMapping("/{candidatId}/{emploiId}")
-    public ResponseEntity<Candidature> postulerOffreEmploi(@PathVariable Integer candidatId, @PathVariable Integer emploiId) {
+    @PostMapping("/postuler")
+    public ResponseEntity<Candidature> postulerOffreEmploi(@RequestParam Integer candidatId, @RequestParam Integer emploiId) {
         Candidature candidature = candidatureService.postulerOffreEmploi(candidatId, emploiId);
         return ResponseEntity.ok(candidature);
     }
 
-    @PostMapping("/linkedin/{emploiId}")
-    public ResponseEntity<Void> processLinkedInCandidature(@RequestParam String src, @PathVariable Integer emploiId) throws IOException {
-        candidatureService.processLinkedInCandidature(src, emploiId);
-        return ResponseEntity.ok().build();
+    @GetMapping("/candidatures/{emploiId}")
+    public ResponseEntity<List<Candidature>> getCandidaturesByEmploiId(@PathVariable Integer emploiId) {
+        List<Candidature> candidatures = candidatureService.getCandidaturesByEmploiId(emploiId);
+        return ResponseEntity.ok(candidatures);
     }
 
-    @GetMapping("/candidatures")
-    public List<Candidature> getAllCandidatures() {
-        return candidatureService.getAllCandidatures();
+    @DeleteMapping("/candidatures/{candidatureId}")
+    public ResponseEntity<Void> deleteCandidature(@PathVariable Integer candidatureId) {
+        candidatureService.deleteCandidature(candidatureId);
+        return ResponseEntity.noContent().build();
     }
-    
-    
+
     @GetMapping("/candidatures/{candidatureId}")
     public ResponseEntity<Candidature> getCandidatureById(@PathVariable Integer candidatureId) {
         Candidature candidature = candidatureService.getCandidatureById(candidatureId);
         return ResponseEntity.ok(candidature);
     }
 
-    @GetMapping("/candidats/{candidatId}")
+    @GetMapping("/candidatures/candidat/{candidatId}")
     public ResponseEntity<List<Candidature>> getCandidaturesByCandidatId(@PathVariable Integer candidatId) {
         List<Candidature> candidatures = candidatureService.getCandidaturesByCandidatId(candidatId);
         return ResponseEntity.ok(candidatures);
     }
 
-    @GetMapping("/emplois/{emploiId}")
-    public ResponseEntity<List<Candidature>> getCandidaturesByEmploiId(@PathVariable Integer emploiId) {
-        List<Candidature> candidatures = candidatureService.getCandidaturesByEmploiId(emploiId);
+    @GetMapping("/candidatures")
+    public ResponseEntity<List<Candidature>> getAllCandidatures() {
+        List<Candidature> candidatures = candidatureService.getAllCandidatures();
         return ResponseEntity.ok(candidatures);
     }
-
-    @DeleteMapping("/{candidatureId}")
-    public ResponseEntity<Void> deleteCandidature(@PathVariable Integer candidatureId) {
-        candidatureService.deleteCandidature(candidatureId);
-        return ResponseEntity.ok().build();
-    }
 }
+
+
+
+
+

@@ -1,10 +1,9 @@
 package de.tritux.db.Services;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.MotCle.MotCle;
@@ -88,15 +87,9 @@ public class RecruteurService extends UserService{
         return emploiRepository.findAll();
     }
 
-    public void ajouterMotsClesEmploi(Integer emploiId, List<String> motCles) {
-        Emploi emploi = emploiRepository.findById(emploiId)
-                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
-
-        emploi.setMotsCles(motCles);
-        emploiRepository.save(emploi);
-    }
-
-
+    
+    
+  
    
 	
 }

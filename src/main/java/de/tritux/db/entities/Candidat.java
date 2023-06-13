@@ -117,4 +117,19 @@ public class Candidat extends User {
 	public void setProfilLinkedIn(String profilLinkedIn) {
 		this.profilLinkedIn = profilLinkedIn;
 	}
+
+	public void setExperiences(String experience) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCompetences(String competences) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFormations(String formations) {
+		// TODO Auto-generated method stub
+		
+	}
 }

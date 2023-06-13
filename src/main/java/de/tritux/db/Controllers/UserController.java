@@ -35,16 +35,7 @@ public class UserController {
 	@Autowired
     private UserInscription userInscription;
 
-	/*@PostMapping("/inscription")
-	public ResponseEntity<String> registerUser(@RequestBody User user) {
-	    try {
-	        userInscription.register(user);
-	        return ResponseEntity.ok("Inscription réussie !");
-	    } catch (UserAlreadyExistsException e) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-	    }
-	}
-*/
+	
 	
 	@PostMapping("/inscription")
     public ResponseEntity<String> InscriptionUser(@RequestBody User user) {

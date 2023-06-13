@@ -21,7 +21,11 @@ public class UserService {
    
    
 	
-	public void InscriptionUser(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
+	
+    
+    
+    
+    public void InscriptionUser(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
         UserInscription userInscription = new UserInscription(null);
         User newUser = userInscription.saveUser(nom, prenom, mail, tel, password);
 
@@ -37,7 +41,15 @@ public class UserService {
             System.out.println("L'inscription a échoué. L'utilisateur existe déjà.");
         }
     }
-    public void Userlogin(String mail, String password) {
+    
+	
+	
+	
+	
+	
+	
+	
+	public void Userlogin(String mail, String password) {
         if (UserAuthentication.authenticate(mail, password)) {
             System.out.println("Connexion réussie.");
         } else {

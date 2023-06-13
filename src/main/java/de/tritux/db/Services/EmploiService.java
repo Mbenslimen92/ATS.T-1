@@ -1,10 +1,8 @@
 package de.tritux.db.Services;
 
-import java.util.List;
 
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Emploi;

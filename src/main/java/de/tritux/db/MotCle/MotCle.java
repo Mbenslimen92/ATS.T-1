@@ -16,17 +16,20 @@ public class MotCle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String libelle;
+    private String valeurMC;
 
 	public MotCle() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MotCle(Integer id, String libelle) {
+	
+	
+	public MotCle(Integer id, String valeurMC, List<Emploi> emplois) {
 		super();
 		this.id = id;
-		this.libelle = libelle;
+		this.valeurMC = valeurMC;
+		this.emplois = emplois;
 	}
 
 	public Integer getId() {
@@ -37,13 +40,22 @@ public class MotCle {
 		this.id = id;
 	}
 
-	public String getLibelle() {
-		return libelle;
+
+	public String getValeurMC() {
+		return valeurMC;
 	}
 
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
+
+	public void setValeurMC(String valeurMC) {
+		this.valeurMC = valeurMC;
 	}
+
+
 	@ManyToMany(mappedBy = "motsCles")
     private List<Emploi> emplois;
+
+	public void setEmplois(List<Emploi> singletonList) {
+		// TODO Auto-generated method stub
+		
+	}
 }
