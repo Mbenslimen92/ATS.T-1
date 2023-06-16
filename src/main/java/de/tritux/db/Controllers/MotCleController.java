@@ -24,28 +24,27 @@ public class MotCleController {
         this.motCleService = motCleService;
     }
 
-    @PostMapping("/motscles/{emploiId}")
+    @PostMapping("/{emploiId}")
     public ResponseEntity<MotCle> createMotCleWithEmploiId(@PathVariable Integer emploiId, @RequestBody String valeurMC) {
         MotCle createdMotCle = motCleService.createMotCleWithEmploiId(emploiId, valeurMC);
         return ResponseEntity.ok(createdMotCle);
     }
 
-    @GetMapping("/motscles")
+    @GetMapping
     public ResponseEntity<List<MotCle>> getAllMotsCles() {
         List<MotCle> motsCles = motCleService.getAllMotsCles();
         return ResponseEntity.ok(motsCles);
     }
 
-    @GetMapping("/motscles/{motCleId}")
+    @GetMapping("/{motCleId}")
     public ResponseEntity<MotCle> getMotCleById(@PathVariable Integer motCleId) {
         MotCle motCle = motCleService.getMotCleById(motCleId);
         return ResponseEntity.ok(motCle);
     }
 
-    @DeleteMapping("/motscles/{motCleId}")
+    @DeleteMapping("/{motCleId}")
     public ResponseEntity<Void> deleteMotCle(@PathVariable Integer motCleId) {
         motCleService.deleteMotCle(motCleId);
         return ResponseEntity.noContent().build();
     }
 }
-

@@ -38,13 +38,7 @@ public class Recruteur extends User {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getNomcomplet() {
-		return getnom()+ " " + getPrenom();
-	}
-	public int getAge() {
-		return (int)ChronoUnit.YEARS.between(DOB, LocalDate.now());
-		
-	}
+	
 	public String getMatricule() {
 		return matricule;
 	}
