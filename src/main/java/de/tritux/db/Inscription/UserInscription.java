@@ -15,9 +15,13 @@ import de.tritux.db.repositories.UserRepository;
 @Service
 public class UserInscription {
 
-    @Autowired
-    public UserInscription(UserService userService) {
-    }
+	
+	    private final UserRepository userRepository;
+
+	    @Autowired
+	    public UserInscription(UserRepository userRepository) {
+	        this.userRepository = userRepository;
+	    }
 
     public void runInscription() throws UserAlreadyExistsException {
         Scanner scanner = new Scanner(System.in);
@@ -37,7 +41,7 @@ public class UserInscription {
         Long tel = scanner.nextLong();
 
         System.out.print("Mot de passe : ");
-        scanner.nextLine(); 
+        scanner.nextLine();
         String password = scanner.nextLine();
 
         User newUser = new User();
@@ -57,48 +61,40 @@ public class UserInscription {
 
         scanner.close();
     }
-    
+
     public boolean validateRegistration(User newUser) {
-    	
-	      
-	     
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         if (!newUser.getMail().matches(emailRegex)) {
             System.out.println("Adresse e-mail invalide");
             return false;
         }
-        
-        
+
         String password = newUser.getPassword();
         if (password.length() < 8 || !password.matches(".*[a-zA-Z].*") || !password.matches(".*\\d.*")) {
             System.out.println("Le mot de passe doit avoir au moins 8 caractères et contenir des lettres et des chiffres.");
             return false;
         }
-        
-   
+
         if (newUser.getnom().length() < 2) {
             System.out.println("Le nom doit avoir au moins 2 caractères.");
             return false;
         }
-        
+
         if (newUser.getPrenom().length() < 2) {
             System.out.println("Le prénom doit avoir au moins 2 caractères.");
             return false;
         }
-        
-        
+
         return true;
     }
 
-    @Autowired
-UserRepository userRepository;
     public boolean register(User newUser) throws UserAlreadyExistsException {
         try {
             if (!validateRegistration(newUser)) {
                 return false;
             }
 
-            Optional<User> existingUser = userRepository.findByMail(newUser.getMail());
+            Optional<User> existingUser = Optional.ofNullable(userRepository.findByMail(newUser.getMail()));
             if (existingUser.isPresent()) {
                 throw new UserAlreadyExistsException("L'utilisateur existe déjà");
             }
@@ -112,20 +108,13 @@ UserRepository userRepository;
         }
     }
 
-	public User saveUser(String nom, String prenom, String mail, Long tel, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	
-    
-    
+    public User saveUser(String nom, String prenom, String mail, Long tel, String password) {
+        User newUser = new User();
+        newUser.setnom(nom);
+        newUser.setPrenom(prenom);
+        newUser.setMail(mail);
+        newUser.setTel(tel);
+        newUser.setPassword(password);
+        return userRepository.save(newUser);
+    }
 }
-
-
-
-
-
-
-

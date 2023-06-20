@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import de.tritux.db.Exception.UserAlreadyExistsException;
 import de.tritux.db.Inscription.UserInscription;
-import de.tritux.db.authentication.UserAuthentication;
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;
 
@@ -49,14 +48,7 @@ public class UserService {
 	
 	
 	
-	public void Userlogin(String mail, String password) {
-        if (UserAuthentication.authenticate(mail, password)) {
-            System.out.println("Connexion réussie.");
-        } else {
-            System.out.println("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
-        }
-    }
-
+	
 }
 
 
