@@ -2,54 +2,91 @@ package de.tritux.db.Services;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import de.tritux.db.Exception.UserAlreadyExistsException;
-import de.tritux.db.Inscription.UserInscription;
+import de.tritux.db.Role;
+import de.tritux.db.Jwt.JwtRequest;
+import de.tritux.db.Jwt.JwtResponse;
+import de.tritux.db.Jwt.JwtUtil;
 import de.tritux.db.entities.User;
+import de.tritux.db.repositories.RoleRepository;
 import de.tritux.db.repositories.UserRepository;
 
-@Service
-public class UserService {
-    public final UserRepository userRepository;
-    
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
-   
    
 	
 	
     
-    
-    
-    public void InscriptionUser(String nom, String prenom, String mail, Long tel, String password) throws UserAlreadyExistsException {
-        UserInscription userInscription = new UserInscription(null);
-        User newUser = userInscription.saveUser(nom, prenom, mail, tel, password);
+    import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-        try {
-            boolean registrationSuccess = userInscription.register(newUser);
+    @Service
+    public class UserService {
 
-            if (registrationSuccess) {
-                System.out.println("Inscription réussie !");
-            } else {
-                System.out.println("L'inscription a échoué. Veuillez réessayer.");
-            }
-        } catch (UserAlreadyExistsException e) {
-            System.out.println("L'inscription a échoué. L'utilisateur existe déjà.");
+        @Autowired
+        private UserRepository userRepository;
+
+        @Autowired
+        private RoleRepository roleRepository;
+
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+       
+		public void initRoleAndUser() {
+
+            Role adminRole = new Role();
+            adminRole.setRoleName("Admin");
+            adminRole.setRoleDescription("Admin role");
+            roleRepository.save(adminRole);
+
+            Role userRole = new Role();
+            userRole.setRoleName("User");
+            userRole.setRoleDescription("Default role for newly created record");
+            roleRepository.save(userRole);
+
+            User adminUser = new User();
+            adminUser.setNom("benslimen");
+            adminUser.setPrenom("med");
+            adminUser.setMail("benslimen92@gmail.com");
+            adminUser.setTel((long) 22781222);
+            adminUser.setPassword(getEncodedPassword("admin@pass"));
+            
+            adminUser.setPrenom("bensli");
+            Set<Role> adminRoles = new HashSet<>();
+            adminRoles.add(adminRole);
+            adminUser.setRole(adminRoles);
+            userRepository.save(adminUser);
+
+
         }
-    }
-    
+
+        public User registerNewUser(User user) {
+            Role role = roleRepository.findById("User").get();
+            Set<Role> userRoles = new HashSet<>();
+            userRoles.add(role);
+            user.setRole(userRoles);
+            user.setPassword(getEncodedPassword(user.getPassword()));
+
+            return userRepository.save(user);
+        }
+
+        public String getEncodedPassword(String password) {
+            return passwordEncoder.encode(password);
+        }
+
+        
+        }
+
+
 	
 	
 	
 	
-	
-	
-	
-	
-}
+
 
 
 

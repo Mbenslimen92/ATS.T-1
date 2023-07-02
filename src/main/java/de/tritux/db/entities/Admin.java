@@ -10,47 +10,22 @@ import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("admin")
-	public class Admin extends User {
-		
-	 private String role;
+public class Admin extends User {
+    
+    private String adminRole;
+    
+    // ...
 
-		
-		
+    public String getAdminRole() {
+        return adminRole;
+    }
 
+    public void setAdminRole(String adminRole) {
+        this.adminRole = adminRole;
+    }
 
+  
 
-		
-
-		public Admin(Integer id, String nom, String prenom, String mail, Long tel, String password, String role,
-			Set<User> users) {
-		super(id, nom, prenom, mail, tel, password);
-		this.role = role;
-		this.users = users;
-	}
-
-
-		public Admin() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-
-		
-		public Set<User> getUsers() {
-			return users;
-		}
-
-		public void setUsers(Set<User> users) {
-			this.users = users;
-		}
-
-		
-		public String getRole() {
-			return role;
-		}
-
-		public void setRole(String role) {
-			this.role = role;
-		}
 
 		
 		

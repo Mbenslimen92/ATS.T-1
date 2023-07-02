@@ -45,7 +45,7 @@ public class UserInscription {
         String password = scanner.nextLine();
 
         User newUser = new User();
-        newUser.setnom(nom);
+        newUser.setNom(nom);
         newUser.setPrenom(prenom);
         newUser.setMail(mail);
         newUser.setTel(tel);
@@ -75,7 +75,7 @@ public class UserInscription {
             return false;
         }
 
-        if (newUser.getnom().length() < 2) {
+        if (newUser.getNom().length() < 2) {
             System.out.println("Le nom doit avoir au moins 2 caractères.");
             return false;
         }
@@ -110,7 +110,7 @@ public class UserInscription {
 
     public User saveUser(String nom, String prenom, String mail, Long tel, String password) {
         User newUser = new User();
-        newUser.setnom(nom);
+        newUser.setNom(nom);
         newUser.setPrenom(prenom);
         newUser.setMail(mail);
         newUser.setTel(tel);

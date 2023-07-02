@@ -16,20 +16,23 @@ public class Candidat extends User {
     private String universite; // Université fréquentée par le candidat
     private String currentJob; // Poste actuel du candidat
     private String profilLinkedIn;
-    private String role; // Rôle ou fonction du candidat
+    private String CandidatRole;
+    
+    // ...
+
+   
 
     
 
 
     public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resume,
-			String universite, String currentJob, String profilLinkedIn, String role, Set<Candidature> candidatures,
+			String universite, String currentJob, String profilLinkedIn,Set<Candidature> candidatures,
 			Set<Skills> skills, Set<Experience> experiences) {
 		super(id, nom, prenom, mail, tel, password);
 		this.resume = resume;
 		this.universite = universite;
 		this.currentJob = currentJob;
 		this.profilLinkedIn = profilLinkedIn;
-		this.role = role;
 		this.candidatures = candidatures;
 		this.skills = skills;
 		this.experiences = experiences;
@@ -63,13 +66,6 @@ public class Candidat extends User {
         this.currentJob = currentJob;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public Set<Candidature> getCandidatures() {
         return candidatures;
@@ -131,5 +127,13 @@ public class Candidat extends User {
 	public void setFormations(String formations) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getCandidatRole() {
+		return CandidatRole;
+	}
+
+	public void setCandidatRole(String candidatRole) {
+		CandidatRole = candidatRole;
 	}
 }

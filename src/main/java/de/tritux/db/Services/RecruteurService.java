@@ -19,15 +19,20 @@ import de.tritux.db.repositories.UserRepository;
 public class RecruteurService extends UserService{
 	private final RecruteurRepository recruteurRepository;
     private final EmploiRepository emploiRepository;
-
-    public RecruteurService(UserRepository userRepository, RecruteurRepository recruteurRepository, EmploiRepository emploiRepository) {
-        super(userRepository);
-        this.recruteurRepository = recruteurRepository;
-        this.emploiRepository = emploiRepository;
-    }
+    private final UserRepository userRepository;
+    
+    
 
 	
-    public List<Recruteur> getAllRecruteur() {
+    public RecruteurService(RecruteurRepository recruteurRepository, EmploiRepository emploiRepository,
+			UserRepository userRepository) {
+		super();
+		this.recruteurRepository = recruteurRepository;
+		this.emploiRepository = emploiRepository;
+		this.userRepository = userRepository;
+	}
+
+	public List<Recruteur> getAllRecruteur() {
         return recruteurRepository.findAll();
     }
 

@@ -72,7 +72,7 @@ public class CandidatureService {
         String formations = document.select("ul.education li").text();
 
         Candidat candidat = new Candidat();
-        candidat.setnom(nom);
+        candidat.setNom(nom);
         candidat.setResume(resume);
         candidat.setExperiences(experience);
         candidat.setCompetences(competences);

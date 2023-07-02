@@ -30,25 +30,7 @@ public class UserController {
 	
 	
 	
-	@Autowired
-    private UserInscription userInscription;
-
 	
-	
-	@PostMapping("/inscription")
-    public ResponseEntity<String> InscriptionUser(@RequestBody User user) {
-        try {
-            boolean registrationSuccess = userInscription.register(user);
-
-            if (registrationSuccess) {
-                return ResponseEntity.ok("Inscription réussie !");
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("L'inscription a échoué. Veuillez réessayer.");
-            }
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
    
     
     

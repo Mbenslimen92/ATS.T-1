@@ -14,9 +14,9 @@ import de.tritux.db.repositories.UserRepository;
 @Service
 public class AdminService extends UserService {
     private final AdminRepository adminRepository;
-
+    private final UserRepository userRepository;
     public AdminService(UserRepository userRepository, AdminRepository adminRepository) {
-        super(userRepository);
+       this.userRepository = userRepository;
         this.adminRepository = adminRepository;
     }
     
@@ -30,22 +30,21 @@ public class AdminService extends UserService {
         return adminRepository.save(admin);
     }
 
+    public Admin getOne(Integer id) {
+        return adminRepository.findById(id).orElse(null);
+    }
 
-	public Admin getOne(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Admin saveAdmin(Admin admin) {
+        return adminRepository.save(admin);
+    }
 
-	public Admin saveAdmin(Admin admin) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void deleteById(Integer id) {
+        adminRepository.deleteById(id);
+    }
+    
 
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-	public List<User> getAllUsers() {
+   
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -53,13 +52,15 @@ public class AdminService extends UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+
     public User saveUser(User user) {
         return userRepository.save(user);
     }
-
+    public User findById(Integer userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+  
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
-	
-
 }

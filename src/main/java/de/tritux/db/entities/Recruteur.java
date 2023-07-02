@@ -1,7 +1,7 @@
 package de.tritux.db.entities;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,19 +19,21 @@ public class Recruteur extends User {
 	
 	private LocalDate DOB = LocalDate.of(2000, 11, 11);
 	
-	 private String role;
+	 private String RecruteurtRole;
+	
 	
 	
 	
 	
 	public Recruteur(Integer id, String nom, String prenom, String mail, Long tel, String password, String matricule,
-			LocalDate dOB, String role, Set<Emploi> emplois) {
+			LocalDate dOB, String recruteurtRole, Set<Emploi> emplois) {
 		super(id, nom, prenom, mail, tel, password);
 		this.matricule = matricule;
-		DOB = dOB;
-		this.setRole(role);
+		setDOB(dOB);
+		RecruteurtRole = recruteurtRole;
 		this.emplois = emplois;
 	}
+
 
 	public Recruteur() {
 		super();
@@ -47,17 +49,39 @@ public class Recruteur extends User {
 		
 	}
 	
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
+	
 	
 	
 
 	
+	public String getRecruteurtRole() {
+		return RecruteurtRole;
+	}
+
+
+	public void setRecruteurtRole(String recruteurtRole) {
+		RecruteurtRole = recruteurtRole;
+	}
+
+
+
+
+
+
+	public LocalDate getDOB() {
+		return DOB;
+	}
+
+
+	public void setDOB(LocalDate dOB) {
+		DOB = dOB;
+	}
+
+
+
+
+
+
 	@OneToMany(mappedBy = "recruteur")
     private Set<Emploi> emplois = new HashSet<>();
 	
