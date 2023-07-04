@@ -1,4 +1,4 @@
-package de.tritux.db.Controllers;
+package de.tritux.db.MotCle;
 
 import java.util.List;
 
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.tritux.db.MotCle.MotCle;
-import de.tritux.db.Services.MotCleService;
 
 @RestController
 @RequestMapping("/motscles")
@@ -48,3 +46,4 @@ public class MotCleController {
         return ResponseEntity.noContent().build();
     }
 }
+

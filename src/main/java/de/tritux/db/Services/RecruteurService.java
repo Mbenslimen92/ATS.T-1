@@ -1,12 +1,10 @@
 package de.tritux.db.Services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import de.tritux.db.Exception.NotFoundException;
-import de.tritux.db.MotCle.MotCle;
+
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.entities.Recruteur;
 import de.tritux.db.repositories.EmploiRepository;

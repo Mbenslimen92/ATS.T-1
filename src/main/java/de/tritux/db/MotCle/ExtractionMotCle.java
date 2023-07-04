@@ -1,6 +1,4 @@
-package de.tritux.db.NLP;
-
-
+package de.tritux.db.MotCle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

@@ -11,11 +11,8 @@ public class AuthRequest {
 
     private String Nom;
     private String password;
-	public AuthRequest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public String getNom() {
+	
+    public String getNom() {
 		return Nom;
 	}
 	public void setNom(String nom) {
@@ -27,6 +24,4 @@ public class AuthRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 }

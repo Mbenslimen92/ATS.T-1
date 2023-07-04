@@ -15,7 +15,7 @@ import de.tritux.db.Services.CandidatureService;
 import de.tritux.db.entities.Candidature;
 
 @RestController
-@RequestMapping("/candidatures")
+
 
 public class CandidatureController {
 
@@ -25,7 +25,7 @@ public class CandidatureController {
         this.candidatureService = candidatureService;
     }
 
-    @PostMapping("/postuler")
+    @PostMapping("candidatures/postuler")
     public ResponseEntity<Candidature> postulerOffreEmploi(@RequestParam Integer candidatId, @RequestParam Integer emploiId) {
         Candidature candidature = candidatureService.postulerOffreEmploi(candidatId, emploiId);
         return ResponseEntity.ok(candidature);

@@ -2,7 +2,6 @@ package de.tritux.db.Controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import de.tritux.db.Services.AdminService;
 import de.tritux.db.entities.Admin;
 import de.tritux.db.entities.User;
-import de.tritux.db.repositories.AdminRepository;
 
 
 @RestController
