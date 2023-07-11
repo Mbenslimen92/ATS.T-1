@@ -12,26 +12,35 @@ import de.tritux.db.Jwt.JwtUtil;
 
 @RestController
 public class AuthController {
-
-    @Autowired
+	
+	
+	@Autowired
     private JwtUtil jwtUtil;
-    @Autowired
+	
+	
+	@Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/")
-    public String welcome() {
-        return "Welcome  !!";
-    }
-
-    @PostMapping("/authenticate")
-    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getNom(), authRequest.getPassword())
-            );
-        } catch (Exception ex) {
-            throw new Exception("inavalid Nom/password");
-        }
-        return jwtUtil.generateToken(authRequest.getNom());
-    }
-}
+	
+	 @GetMapping("/")
+	    public String welcome() {
+	        return "Welcome !!";
+	    }
+	
+	 @PostMapping("/authenticate")
+	    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+	        try {
+	            authenticationManager.authenticate(
+	                    new UsernamePasswordAuthenticationToken(authRequest.getNom(), authRequest.getPassword())
+	            );
+	        } catch (Exception ex) {
+	            throw new Exception("inavalid username/password");
+	        }
+	        return jwtUtil.generateToken(authRequest.getNom());
+	    }
+	}
+	
+	
+	
+	
+	

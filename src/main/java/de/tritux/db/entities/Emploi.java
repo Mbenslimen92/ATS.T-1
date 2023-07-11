@@ -29,8 +29,7 @@ public class Emploi {
      String description;
      Date dateDePublication;
      private String motsCles;
-     @Column(name = "src")
-    private String src;
+     
     
 
     public Emploi() {
@@ -39,14 +38,14 @@ public class Emploi {
 
     
     public Emploi(Integer id, String titre, String description, Date dateDePublication,
-			String motsCles, String src, Recruteur recruteur, Set<Candidature> candidatures) {
+			String motsCles,  Recruteur recruteur, Set<Candidature> candidatures) {
 		super();
 		this.id = id;
 		this.titre = titre;
 		this.description = description;
 		this.dateDePublication = dateDePublication;
 		this.setMotsCles(motsCles);
-		this.src = src;
+	
 		this.recruteur = recruteur;
 		this.candidatures = candidatures;
 	}
@@ -100,13 +99,7 @@ public class Emploi {
         this.candidatures = candidatures;
     }
 
-    public String getSrc() {
-        return src;
-    }
-
-    public void setSrc(String src) {
-        this.src = src;
-    }
+   
     
 	
 	@ManyToOne
