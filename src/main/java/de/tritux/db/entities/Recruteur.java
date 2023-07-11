@@ -5,13 +5,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import javax.persistence.OneToMany;
 
 @Entity
-@DiscriminatorValue("recruteur")
 public class Recruteur extends User {
 	
 	

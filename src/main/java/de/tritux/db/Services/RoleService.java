@@ -9,10 +9,5 @@ import de.tritux.db.repositories.RoleRepository;
 @Service
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-    public Role createNewRole(Role role) {
-        return roleRepository.save(role);
-    }
+   
 }

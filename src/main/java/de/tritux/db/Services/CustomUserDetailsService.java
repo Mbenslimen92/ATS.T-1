@@ -24,8 +24,5 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-	public Object getNom() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

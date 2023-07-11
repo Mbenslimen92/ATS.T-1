@@ -14,12 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import de.tritux.db.Role;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-
 @Entity
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
 public class User {
@@ -118,8 +121,9 @@ public class User {
     private Admin admin;
 
     
-
 }
+
+
 
 
 

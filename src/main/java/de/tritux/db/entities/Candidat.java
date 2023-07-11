@@ -3,13 +3,11 @@ package de.tritux.db.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 
 @Entity
-@DiscriminatorValue("candidat")
 public class Candidat extends User {
 
     private String resume; // Résumé du profil du candidat
