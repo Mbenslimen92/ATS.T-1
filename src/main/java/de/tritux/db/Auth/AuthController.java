@@ -38,7 +38,6 @@ public class AuthController {
 	
 	 @PostMapping("/authenticate")
 	    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
-	        // Récupérer les informations de l'utilisateur à partir de la UserRepository
 	        User user = userRepository.findByNom(authRequest.getNom());
 	        
 	        if (user == null || !encoder.matches(user.getPassword(),authRequest.getPassword())) {

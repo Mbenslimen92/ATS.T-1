@@ -37,10 +37,10 @@ public class Emploi {
     }
 
     
-    public Emploi(Integer id, String titre, String description, Date dateDePublication,
+    public Emploi(Integer emploiId, String titre, String description, Date dateDePublication,
 			String motsCles,  Recruteur recruteur, Set<Candidature> candidatures) {
 		super();
-		this.id = id;
+		this.id = emploiId;
 		this.titre = titre;
 		this.description = description;
 		this.dateDePublication = dateDePublication;

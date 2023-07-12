@@ -23,10 +23,10 @@ public class Candidat extends User {
     
 
 
-    public Candidat(Integer id, String nom, String prenom, String mail, Long tel, String password, String resume,
+    public Candidat(Integer candidatId, String nom, String prenom, String mail, Long tel, String password, String resume,
 			String universite, String currentJob, String profilLinkedIn,Set<Candidature> candidatures,
 			Set<Skills> skills, Set<Experience> experiences) {
-		super(id, nom, prenom, mail, tel, password);
+		super(candidatId, nom, prenom, mail, tel, password);
 		this.resume = resume;
 		this.universite = universite;
 		this.currentJob = currentJob;

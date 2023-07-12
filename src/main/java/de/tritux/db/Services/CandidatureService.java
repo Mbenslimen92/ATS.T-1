@@ -29,10 +29,10 @@ import java.util.ArrayList;
 @Service
 public class CandidatureService {
 
-    private CandidatRepository candidatRepository;
-    private EmploiRepository emploiRepository;
-    private CandidatureRepository candidatureRepository;
-    private MotCleRepository motCleRepository;
+    final private CandidatRepository candidatRepository;
+   final  private EmploiRepository emploiRepository;
+   final private CandidatureRepository candidatureRepository;
+    final private MotCleRepository motCleRepository;
 
     public CandidatureService(CandidatRepository candidatRepository, EmploiRepository emploiRepository,
                               CandidatureRepository candidatureRepository, MotCleRepository motCleRepository) {
