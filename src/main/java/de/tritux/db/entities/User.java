@@ -2,6 +2,7 @@ package de.tritux.db.entities;
 
 
 import javax.persistence.CascadeType;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,9 +18,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import de.tritux.db.Role;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
