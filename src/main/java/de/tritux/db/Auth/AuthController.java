@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Jwt.JwtUtil;
@@ -31,10 +32,14 @@ public class AuthController {
         this.encoder = encoder;
     }
 	
-	 @GetMapping("/")
-	    public String welcome() {
-	        return "Welcome !!";
-	    }
+    @GetMapping("/info")
+    public String welcome(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring(7); // Supprimez le préfixe "Bearer " du header Authorization
+        String username = jwtUtil.extractUsername(token);
+
+        return "Welcome To Tritux, " + username + "!!";
+    }
+
 	
 	 @PostMapping("/authenticate")
 	    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {

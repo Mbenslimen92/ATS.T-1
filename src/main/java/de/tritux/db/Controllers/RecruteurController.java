@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import de.tritux.db.repositories.RecruteurRepository;
 
 
 @RestController
+@CrossOrigin("*")
+
 public class RecruteurController {
 	
 	
@@ -70,9 +73,10 @@ public class RecruteurController {
 	
 	
 	@GetMapping("/offres")
-    public ResponseEntity<List<Emploi>> obtenirTousLesOffresEmploi() {
+    public List<Emploi> obtenirTousLesOffresEmploi() {
         List<Emploi> offresEmploi = recruteurService.obtenirTousLesOffresEmploi();
-        return ResponseEntity.ok(offresEmploi);
+        System.out.println("NB OFFFFRE   "+offresEmploi.size());
+        return offresEmploi;
     }
 	
 	 @GetMapping("/offres/{offreId}")

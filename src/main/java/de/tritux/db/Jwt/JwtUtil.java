@@ -1,6 +1,7 @@
 package de.tritux.db.Jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,9 +33,14 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
+	private Boolean isTokenExpired(String token) {
+	    try {
+	        return extractExpiration(token).before(new Date());
+	    } catch (ExpiredJwtException ex) {
+	        return true; // Gérer l'expiration du JWT
+	    }
+	}
+
 
     public String generateToken(String Nom) {
         Map<String, Object> claims = new HashMap<>();
@@ -47,7 +53,7 @@ public class JwtUtil {
         		.setClaims(claims)
         		.setSubject(subject)
         		.setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 100))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
