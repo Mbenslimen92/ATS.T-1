@@ -68,40 +68,6 @@ public class RecruteurController {
 		return recruteurService;
 	}
 	
-// Partie Emploi	
-	
-	
-	
-	@GetMapping("/offres")
-    public List<Emploi> obtenirTousLesOffresEmploi() {
-        List<Emploi> offresEmploi = recruteurService.obtenirTousLesOffresEmploi();
-        System.out.println("NB OFFFFRE   "+offresEmploi.size());
-        return offresEmploi;
-    }
-	
-	 @GetMapping("/offres/{offreId}")
-	    public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer offreId) {
-	        Emploi emploi = recruteurService.obtenirOffreEmploiParId(offreId);
-	        return ResponseEntity.ok(emploi);
-	    }
-
-	    @PostMapping("/offres")
-	    public ResponseEntity<Emploi> ajouterOffreEmploi(@RequestBody Emploi emploi) {
-	        Emploi nouvelleOffre = recruteurService.ajouterOffreEmploi(emploi);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleOffre);
-	    }
-
-	    @PutMapping("/offres/{offreId}")
-	    public ResponseEntity<Emploi> modifierOffreEmploiParId(@PathVariable Integer offreId, @RequestBody Emploi emploiModifie) {
-	        Emploi emploiMisAJour = recruteurService.modifierOffreEmploiParId(offreId, emploiModifie);
-	        return ResponseEntity.ok(emploiMisAJour);
-	    }
-
-	    @DeleteMapping("/offres/{offreId}")
-	    public ResponseEntity<Void> supprimerOffreEmploiParId(@PathVariable Integer offreId) {
-	        recruteurService.supprimerOffreEmploiParId(offreId);
-	        return ResponseEntity.noContent().build();
-	    }
 
 	    
 	    

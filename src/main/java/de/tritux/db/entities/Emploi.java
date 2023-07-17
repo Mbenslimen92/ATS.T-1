@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import de.tritux.db.MotCle.MotCle;
 
 @Entity
 public class Emploi {
@@ -114,7 +113,6 @@ public class Emploi {
     @JoinTable(name = "emploi_motcle",
         joinColumns = @JoinColumn(name = "emploi_id"),
         inverseJoinColumns = @JoinColumn(name = "motcle_id"))
-    private List<MotCle> motsCles1;
 
 
 	public void setMotsCles(List<String> motCles) {

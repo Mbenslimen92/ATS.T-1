@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.Services.CandidatureService;
 import de.tritux.db.entities.Candidature;
+import de.tritux.db.entities.Emploi;
+import de.tritux.db.repositories.EmploiRepository;
 
 @RestController
 public class CandidatureController {
 
-    private CandidatureService candidatureService;
+	 private final CandidatureService candidatureService;
+	    private final EmploiRepository emploiRepository; // Ajoutez cette ligne
 
-    public CandidatureController(CandidatureService candidatureService) {
-        this.candidatureService = candidatureService;
-    }
+	    public CandidatureController(CandidatureService candidatureService, EmploiRepository emploiRepository) {
+	        this.candidatureService = candidatureService;
+	        this.emploiRepository = emploiRepository; // Initialisez la variable emploiRepository
+	    }
 
     @PostMapping("/candidatures/postuler")
     public ResponseEntity<Candidature> postulerOffreEmploi(@RequestParam Integer candidatId, @RequestParam Integer emploiId) {
@@ -68,6 +72,20 @@ public class CandidatureController {
         List<Candidature> candidatures = candidatureService.getAllCandidatures();
         return ResponseEntity.ok(candidatures);
     }
+    
+    
+    @PostMapping("/offres-emploi/{emploiId}/scraping-linkedin")
+    public ResponseEntity<String> scraperLinkedInPourProfiles(@PathVariable Integer emploiId) {
+        Emploi emploi = emploiRepository.findById(emploiId)
+                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+
+        candidatureService.scraperLinkedInPourProfiles(emploi);
+
+        return ResponseEntity.ok("Scraping des profils LinkedIn effectué avec succès.");
+    }
+
+    
+    
 }
 
 

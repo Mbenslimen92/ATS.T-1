@@ -5,24 +5,25 @@ import org.springframework.stereotype.Service;
 
 
 import de.tritux.db.Exception.NotFoundException;
-import de.tritux.db.MotCle.MotCle;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Candidature;
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.repositories.CandidatRepository;
 import de.tritux.db.repositories.CandidatureRepository;
 import de.tritux.db.repositories.EmploiRepository;
-import de.tritux.db.repositories.MotCleRepository;
 
 import java.io.IOException;
 
 import java.util.List;
+import java.net.URLEncoder;
 
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 
 
@@ -32,14 +33,12 @@ public class CandidatureService {
     final private CandidatRepository candidatRepository;
    final  private EmploiRepository emploiRepository;
    final private CandidatureRepository candidatureRepository;
-    final private MotCleRepository motCleRepository;
 
     public CandidatureService(CandidatRepository candidatRepository, EmploiRepository emploiRepository,
-                              CandidatureRepository candidatureRepository, MotCleRepository motCleRepository) {
+                              CandidatureRepository candidatureRepository) {
         this.candidatRepository = candidatRepository;
         this.emploiRepository = emploiRepository;
         this.candidatureRepository = candidatureRepository;
-        this.motCleRepository = motCleRepository;
     }
    
     
@@ -62,91 +61,58 @@ public class CandidatureService {
 
   
     
-    public Candidat extractCandidateInformation(String profileUrl) throws IOException {
-        Document document = Jsoup.connect(profileUrl).get();
+  
+    public void scraperLinkedInPourProfiles(Emploi emploi) {
+        String motsClesString = emploi.getMotsCles();
+        if (motsClesString == null || motsClesString.isEmpty()) {
+            System.out.println("Aucun mot-clé spécifié dans l'offre d'emploi.");
+            return;
+        }
 
-        String nom = document.select("span.full-name").text();
-        String resume = document.select("p.resume").text();
-        String experience = document.select("ul.experience li").text();
-        String competences = document.select("ul.skills li").text();
-        String formations = document.select("ul.education li").text();
+        List<String> motsCles = Arrays.asList(motsClesString.split("\\s*,\\s*"));
 
-        Candidat candidat = new Candidat();
-        candidat.setNom(nom);
-        candidat.setResume(resume);
-        candidat.setExperiences(experience);
-        candidat.setCompetences(competences);
-        candidat.setFormations(formations);
+        StringBuilder searchKeywords = new StringBuilder();
+        for (String motCle : motsCles) {
+            searchKeywords.append(motCle).append(" ");
+        }
 
-        return candidat;
-    }
 
-    public void processLinkedInCandidature(String src, Integer emploiId) throws IOException {
-        if (src != null && src.startsWith("https://www.linkedin.com")) {
-            Candidat candidat = extractCandidateInformation(src);
-            Emploi emploi = emploiRepository.findById(emploiId)
-                    .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+            String searchUrl = "https://www.linkedin.com/search/results/people/?keywords=" + searchKeywords.toString().trim().replace(" ", "%20");
 
-            Candidature nouvelleCandidature = new Candidature();
-            nouvelleCandidature.setCandidat(candidat);
-            nouvelleCandidature.setEmploi(emploi);
+            int pageCount = 0;
+            int resultCount = 0;
 
-            if (!candidatureRepository.existsByCandidatAndEmploi(candidat, emploi)) {
-                candidatureRepository.save(nouvelleCandidature);
-            }
+            try {
+                while (resultCount < 100) {
+                    String pageUrl = searchUrl + "&page=" + (pageCount + 1);
+                    Document document = Jsoup.connect(pageUrl).get();
+                    Elements profileElements = document.select(".search-result__wrapper");
 
-            List<Candidat> candidatRecommandés = candidatRepository.findByResumeContaining(candidat.getResume());
+                    for (Element element : profileElements) {
+                        String name = element.select(".actor-name").text();
+                        String headline = element.select(".subline-level-1").text();
+                        String location = element.select(".subline-level-2").text();
 
-            for (Candidat candidatRecommandé : candidatRecommandés) {
-                if (!candidatureRepository.existsByCandidatAndEmploi(candidatRecommandé, emploi)) {
-                    Candidature candidatureRecommandé = new Candidature();
-                    candidatureRecommandé.setCandidat(candidatRecommandé);
-                    candidatureRecommandé.setEmploi(emploi);
-                    candidatureRepository.save(candidatureRecommandé);
+                        System.out.println("Name: " + name);
+                        System.out.println("Headline: " + headline);
+                        System.out.println("Location: " + location);
+                        System.out.println("------------------------");
+
+                        resultCount++;
+                        if (resultCount >= 100) {
+                            break;
+                        }
+                    }
+
+                    pageCount++;
                 }
-            }
-        } else {
-            throw new UnsupportedOperationException("Source de candidature non prise en charge");
-        }
-    }
-    
-    
-    
-    public void rechercherEtSauvegarderCandidats(List<Candidat> candidates, Integer emploiId, List<String> motsCles) {
-        Emploi emploi = emploiRepository.findById(emploiId)
-                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
-
-        List<Candidat> candidatRecommandes = new ArrayList<>();
-
-        for (Candidat candidat : candidates) {
-            String resumeCandidat = candidat.getResume();
-
-            // Vérifier si le résumé du candidat contient au moins un des mots-clés
-            for (String motCleValeur : motsCles) {
-                MotCle motCle = motCleRepository.findByValeurMC(motCleValeur);
-                if (motCle != null && resumeCandidat.toLowerCase().contains(motCleValeur.toLowerCase())) {
-                    candidatRecommandes.add(candidat);
-                    break; // Sortir de la boucle dès qu'un mot-clé est trouvé
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
-        for (Candidat candidatRecommande : candidatRecommandes) {
-            Candidature candidature = new Candidature();
-            candidature.setCandidat(candidatRecommande);
-            candidature.setEmploi(emploi);
-
-            if (!candidatureRepository.existsByCandidatAndEmploi(candidatRecommande, emploi)) {
-                candidatureRepository.save(candidature);
-            }
-        }
-    }
-
-
+        // ...
     
-   
-
-
 
 
 
