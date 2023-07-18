@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Postuler.PostulerRequest;
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.Services.CandidatureService;
 import de.tritux.db.entities.Candidature;
@@ -21,26 +23,28 @@ import de.tritux.db.repositories.EmploiRepository;
 public class CandidatureController {
 
 	 private final CandidatureService candidatureService;
-	    private final EmploiRepository emploiRepository; // Ajoutez cette ligne
+	    private final EmploiRepository emploiRepository; 
 
 	    public CandidatureController(CandidatureService candidatureService, EmploiRepository emploiRepository) {
 	        this.candidatureService = candidatureService;
-	        this.emploiRepository = emploiRepository; // Initialisez la variable emploiRepository
+	        this.emploiRepository = emploiRepository; 
 	    }
 
-    @PostMapping("/candidatures/postuler")
-    public ResponseEntity<Candidature> postulerOffreEmploi(@RequestParam Integer candidatId, @RequestParam Integer emploiId) {
-        try {
-            Candidature candidature = candidatureService.postulerOffreEmploi(candidatId, emploiId);
-            return ResponseEntity.ok(candidature);
-        } catch (NotFoundException e) {
-            // Gérer l'exception lorsque le candidat ou l'offre d'emploi n'est pas trouvé
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            // Gérer les autres exceptions imprévues
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	    @PostMapping("/candidatures/postuler")
+	    public ResponseEntity<Candidature> postulerOffreEmploi(@RequestBody PostulerRequest request) {
+	        try {
+	            Candidature candidature = candidatureService.postulerOffreEmploi(request.getCandidatId(), request.getEmploiId());
+	            return ResponseEntity.ok(candidature);
+	        } catch (NotFoundException e) {
+	            // Gérer l'exception lorsque le candidat ou l'offre d'emploi n'est pas trouvé
+	            return ResponseEntity.notFound().build();
+	        } catch (Exception e) {
+	            // Gérer les autres exceptions imprévues
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        }
+	    }
+
+
 
 
     @GetMapping("/candidatures/emploi/{emploiId}")

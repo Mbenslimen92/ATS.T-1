@@ -1,12 +1,8 @@
 package de.tritux.db.Controllers;
 
-import java.io.IOException;
+
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +20,11 @@ import de.tritux.db.entities.Emploi;
 @RestController
 @CrossOrigin("*")
 public class EmploiController {
-private  EmploiService emploiService ;
+    private final EmploiService emploiService;
+
+    public EmploiController(EmploiService emploiService) {
+        this.emploiService = emploiService;
+    }
 @GetMapping("/offres")
 public List<Emploi> obtenirTousLesOffresEmploi() {
     List<Emploi> offresEmploi = emploiService.obtenirTousLesOffresEmploi();

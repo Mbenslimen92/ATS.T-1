@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,33 +21,118 @@ import javax.persistence.OneToMany;
 public class Emploi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Integer id;
+    private Integer id;
+
+    private String titre;
+
     
-     String titre;
-    @Column(name = "description")
-     String description;
-     Date dateDePublication;
-     private String motsCles;
-     
+    private String description;
+
+    private Date dateDePublication;
+
+    private String motsCles;
+
+    private String image;
+
+    private String natureTravail;
+
+    private String education;
+
+    private String experience;
+
     
 
     public Emploi() {
         super();
     }
 
-    
-    public Emploi(Integer emploiId, String titre, String description, Date dateDePublication,
-			String motsCles,  Recruteur recruteur, Set<Candidature> candidatures) {
+    public Emploi(Integer id, String titre, String description, Date dateDePublication, String motsCles, String image,
+			String natureTravail, String education, String experience, Recruteur recruteur,
+			Set<Candidature> candidatures) {
 		super();
-		this.id = emploiId;
+		this.id = id;
 		this.titre = titre;
 		this.description = description;
 		this.dateDePublication = dateDePublication;
-		this.setMotsCles(motsCles);
-	
+		this.motsCles = motsCles;
+		this.image = image;
+		this.natureTravail = natureTravail;
+		this.education = education;
+		this.experience = experience;
 		this.recruteur = recruteur;
 		this.candidatures = candidatures;
 	}
+
+
+
+    
+
+
+	public String getImage() {
+		return image;
+	}
+
+
+
+
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+
+
+
+
+	public String getNatureTravail() {
+		return natureTravail;
+	}
+
+
+
+
+
+	public void setNatureTravail(String natureTravail) {
+		this.natureTravail = natureTravail;
+	}
+
+
+
+
+
+	public String getEducation() {
+		return education;
+	}
+
+
+
+
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+
+
+
+
+	public String getExperience() {
+		return experience;
+	}
+
+
+
+
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+
+
+
+
+	
 
 
 	public Integer getId() {
@@ -128,5 +213,4 @@ public class Emploi {
 
 	public void setMotsCles(String motsCles) {
 		this.motsCles = motsCles;
-	}
-}
+	}}

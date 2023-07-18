@@ -44,13 +44,24 @@ public class CandidatureService {
     
     
     
+    
+
     public Candidature postulerOffreEmploi(Integer candidatId, Integer emploiId) {
+        // Vérifier si le candidat existe
         Candidat candidat = candidatRepository.findById(candidatId)
                 .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
 
+        // Vérifier si l'offre d'emploi existe
         Emploi emploi = emploiRepository.findById(emploiId)
                 .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
 
+        // Vérifier si le candidat a déjà postulé à cette offre d'emploi
+        boolean candidatureExist = candidatureRepository.existsByCandidatAndEmploi(candidat, emploi);
+        if (candidatureExist) {
+            throw new IllegalStateException("Le candidat a déjà postulé à cette offre d'emploi");
+        }
+
+        // Créer la candidature
         Candidature candidature = new Candidature();
         candidature.setCandidat(candidat);
         candidature.setEmploi(emploi);
@@ -58,6 +69,8 @@ public class CandidatureService {
 
         return candidature;
     }
+    
+
 
   
     
