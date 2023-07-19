@@ -3,12 +3,15 @@ package de.tritux.db.Services;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Emploi;
-
+import de.tritux.db.entities.User;
+import de.tritux.db.models.EmploiDto;
+import de.tritux.db.models.UserDto;
 import de.tritux.db.repositories.EmploiRepository;
 
 @Service
@@ -57,10 +60,28 @@ public class EmploiService {
 
 	        emploiRepository.delete(emploi);
 	    }
+	    
 
-	    public List<Emploi> obtenirTousLesOffresEmploi() {
-	        return emploiRepository.findAll();
+	    public List<EmploiDto> getAllEmploi() {
+	    	List<Emploi> list = emploiRepository.findAll();
+	    	List<EmploiDto> result = list.stream().map(emploi -> {
+	    		
+	        	EmploiDto emploiDto = new EmploiDto();
+	        	emploiDto.setId(emploi.getId());
+	        	emploiDto.setTitre(emploi.getTitre());
+	        	emploiDto.setDateDePublication(emploi.getDateDePublication());
+	        	emploiDto.setImage(emploi.getImage());
+
+	        	return emploiDto;
+	        	
+}).collect(Collectors.toList());
+	        
+	        return result;
 	    }
+
+	        	
+	    		
+	    
 
 	    
 	    

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Services.EmploiService;
 import de.tritux.db.entities.Emploi;
+import de.tritux.db.models.EmploiDto;
+import de.tritux.db.models.UserDto;
 
 @RestController
 @CrossOrigin("*")
@@ -25,32 +27,33 @@ public class EmploiController {
     public EmploiController(EmploiService emploiService) {
         this.emploiService = emploiService;
     }
-@GetMapping("/offres")
-public List<Emploi> obtenirTousLesOffresEmploi() {
-    List<Emploi> offresEmploi = emploiService.obtenirTousLesOffresEmploi();
-    System.out.println("NB OFFFFRE   "+offresEmploi.size());
-    return offresEmploi;
+    
+    
+@GetMapping("/emplois")
+public ResponseEntity<List<EmploiDto>> getAllEmploi() {
+	List<EmploiDto> emplois = emploiService.getAllEmploi();
+	return ResponseEntity.ok(emplois);
 }
 
- @GetMapping("/offres/{offreId}")
+ @GetMapping("/emplois/{offreId}")
     public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer offreId) {
         Emploi emploi = emploiService.obtenirOffreEmploiParId(offreId);
         return ResponseEntity.ok(emploi);
     }
 
-    @PostMapping("/offres")
+    @PostMapping("/empolis")
     public ResponseEntity<Emploi> ajouterOffreEmploi(@RequestBody Emploi emploi) {
         Emploi nouvelleOffre = emploiService.ajouterOffreEmploi(emploi);
         return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleOffre);
     }
 
-    @PutMapping("/offres/{offreId}")
+    @PutMapping("/emplois/{emploiId}")
     public ResponseEntity<Emploi> modifierOffreEmploiParId(@PathVariable Integer offreId, @RequestBody Emploi emploiModifie) {
         Emploi emploiMisAJour = emploiService.modifierOffreEmploiParId(offreId, emploiModifie);
         return ResponseEntity.ok(emploiMisAJour);
     }
 
-    @DeleteMapping("/offres/{offreId}")
+    @DeleteMapping("/emplois/{emploiId}")
     public ResponseEntity<Void> supprimerOffreEmploiParId(@PathVariable Integer offreId) {
     	emploiService.supprimerOffreEmploiParId(offreId);
         return ResponseEntity.noContent().build();
