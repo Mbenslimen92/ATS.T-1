@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.tritux.db.Services.AdminService;
 import de.tritux.db.entities.Admin;
 import de.tritux.db.entities.User;
+import de.tritux.db.models.UserDto;
 
 
 @RestController
@@ -52,8 +53,9 @@ public class AdminController {
 	}
 
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> users = adminService.getAllUsers();
+	public ResponseEntity<List<UserDto>> getAllUsers() {
+		
+		List<UserDto> users = adminService.getAllUsers();
 		return ResponseEntity.ok(users);
 	}
 

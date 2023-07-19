@@ -1,26 +1,34 @@
 package de.tritux.db.Services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
 import de.tritux.db.entities.Admin;
 import de.tritux.db.entities.User;
+import de.tritux.db.models.UserDto;
 import de.tritux.db.repositories.AdminRepository;
 import de.tritux.db.repositories.UserRepository;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @Service
 public class AdminService extends UserService {
-    private final AdminRepository adminRepository;
+    
+	private final AdminRepository adminRepository;
     private final UserRepository userRepository;
+    
     public AdminService(UserRepository userRepository, AdminRepository adminRepository) {
        this.userRepository = userRepository;
         this.adminRepository = adminRepository;
     }
-    
-    
 	
     public List<Admin> getAllAdmin() {
         return adminRepository.findAll();
@@ -42,10 +50,22 @@ public class AdminService extends UserService {
         adminRepository.deleteById(id);
     }
     
-
-   
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+    	
+        List<User> list = userRepository.findAll();
+        
+        List<UserDto> result = list.stream().map(user -> {
+        	
+        	UserDto userDto = new UserDto();
+        	userDto.setId(user.getId());
+        	userDto.setNom(user.getNom());
+        	userDto.setMail(user.getMail());
+        	
+        	return userDto;
+        	
+        }).collect(Collectors.toList());
+        
+        return result;
     }
 
     public User getUserById(Integer id) {

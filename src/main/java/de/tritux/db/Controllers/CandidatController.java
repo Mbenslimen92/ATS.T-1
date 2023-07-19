@@ -54,10 +54,7 @@ public class CandidatController {
 	}
 	
 	
-	@PostMapping("/{candidatId}/emplois/{emploiId}/postuler")
-    public Candidature postulerOffreEmploi(@PathVariable Integer candidatId, @PathVariable Integer emploiId) {
-		return candidatureService.postulerOffreEmploi(candidatId, emploiId);
-    }
+	
 	
     }
 

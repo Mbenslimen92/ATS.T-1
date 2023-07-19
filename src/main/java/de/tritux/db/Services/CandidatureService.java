@@ -1,9 +1,10 @@
 package de.tritux.db.Services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import Postuler.ProfilLinkedIn;
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Candidature;
@@ -11,6 +12,7 @@ import de.tritux.db.entities.Emploi;
 import de.tritux.db.repositories.CandidatRepository;
 import de.tritux.db.repositories.CandidatureRepository;
 import de.tritux.db.repositories.EmploiRepository;
+
 
 import java.io.IOException;
 
@@ -47,21 +49,17 @@ public class CandidatureService {
     
 
     public Candidature postulerOffreEmploi(Integer candidatId, Integer emploiId) {
-        // Vérifier si le candidat existe
         Candidat candidat = candidatRepository.findById(candidatId)
                 .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
 
-        // Vérifier si l'offre d'emploi existe
         Emploi emploi = emploiRepository.findById(emploiId)
                 .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
 
-        // Vérifier si le candidat a déjà postulé à cette offre d'emploi
         boolean candidatureExist = candidatureRepository.existsByCandidatAndEmploi(candidat, emploi);
         if (candidatureExist) {
             throw new IllegalStateException("Le candidat a déjà postulé à cette offre d'emploi");
         }
 
-        // Créer la candidature
         Candidature candidature = new Candidature();
         candidature.setCandidat(candidat);
         candidature.setEmploi(emploi);
@@ -69,12 +67,15 @@ public class CandidatureService {
 
         return candidature;
     }
+
     
 
 
   
     
-  
+    /*@Autowired
+    private ProfilLinkedInRepository profilLinkedInRepository; 
+
     public void scraperLinkedInPourProfiles(Emploi emploi) {
         String motsClesString = emploi.getMotsCles();
         if (motsClesString == null || motsClesString.isEmpty()) {
@@ -89,42 +90,40 @@ public class CandidatureService {
             searchKeywords.append(motCle).append(" ");
         }
 
+        String searchUrl = "https://www.linkedin.com/search/results/people/?keywords=" + searchKeywords.toString().trim().replace(" ", "%20");
 
-            String searchUrl = "https://www.linkedin.com/search/results/people/?keywords=" + searchKeywords.toString().trim().replace(" ", "%20");
+        int resultCount = 0;
 
-            int pageCount = 0;
-            int resultCount = 0;
+        try {
+            Document document = Jsoup.connect(searchUrl).get();
+            Elements profileElements = document.select(".search-result__wrapper");
 
-            try {
-                while (resultCount < 100) {
-                    String pageUrl = searchUrl + "&page=" + (pageCount + 1);
-                    Document document = Jsoup.connect(pageUrl).get();
-                    Elements profileElements = document.select(".search-result__wrapper");
+            for (Element element : profileElements) {
+                String name = element.select(".actor-name").text();
+                String headline = element.select(".subline-level-1").text();
+                String location = element.select(".subline-level-2").text();
 
-                    for (Element element : profileElements) {
-                        String name = element.select(".actor-name").text();
-                        String headline = element.select(".subline-level-1").text();
-                        String location = element.select(".subline-level-2").text();
+                System.out.println("Name: " + name);
+                System.out.println("Headline: " + headline);
+                System.out.println("Location: " + location);
+                System.out.println("------------------------");
 
-                        System.out.println("Name: " + name);
-                        System.out.println("Headline: " + headline);
-                        System.out.println("Location: " + location);
-                        System.out.println("------------------------");
+                ProfilLinkedIn profilLinkedIn = new ProfilLinkedIn(null, location, location, location);
+                profilLinkedIn.setName(name);
+                profilLinkedIn.setHeadline(headline);
+                profilLinkedIn.setLocation(location);
 
-                        resultCount++;
-                        if (resultCount >= 100) {
-                            break;
-                        }
-                    }
+                profilLinkedInRepository.save(profilLinkedIn);
 
-                    pageCount++;
+                resultCount++;
+                if (resultCount >= 10) {
+                    break;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // ...
+    }*/
     
 
 

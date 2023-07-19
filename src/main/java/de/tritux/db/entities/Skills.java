@@ -11,11 +11,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "skills")
 public class Skills {
-    @Id
+   
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-   
+
+	@ManyToOne
+    @JoinColumn(name = "candidat_id")
+    private Candidat candidat;
+
 
     public Skills(Integer id, Candidat candidat) {
 		super();
@@ -55,9 +60,5 @@ public class Skills {
 	}
 
 
-
-	@ManyToOne
-    @JoinColumn(name = "candidat_id")
-    private Candidat candidat;
 
 }

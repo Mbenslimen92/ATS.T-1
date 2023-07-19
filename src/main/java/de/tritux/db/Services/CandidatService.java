@@ -13,14 +13,12 @@ import de.tritux.db.repositories.UserRepository;
 @Service
 public class CandidatService extends UserService {
     private CandidatRepository candidatRepository;
-    private UserRepository userRepository;
     
     
-    public CandidatService(CandidatRepository candidatRepository, UserRepository userRepository) {
+    public CandidatService(CandidatRepository candidatRepository) {
 		super();
 		this.candidatRepository = candidatRepository;
-		this.userRepository = userRepository;
-	}
+    }
 
 	public List<Candidat> getAllCandidat() {
         return candidatRepository.findAll();

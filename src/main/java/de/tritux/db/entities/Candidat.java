@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Candidat extends User {
@@ -88,6 +90,7 @@ public class Candidat extends User {
     public void setExperiences(Set<Experience> experiences) {
         this.experiences = experiences;
     }
+    @JsonIgnore
     @OneToMany(mappedBy = "candidat")
     private Set<Candidature> candidatures = new HashSet<>();
 

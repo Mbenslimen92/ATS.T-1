@@ -2,6 +2,7 @@ package de.tritux.db.Controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Postuler.PostulerRequest;
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.Services.CandidatureService;
+import de.tritux.db.Services.EmploiService;
 import de.tritux.db.entities.Candidature;
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.repositories.EmploiRepository;
@@ -36,10 +38,8 @@ public class CandidatureController {
 	            Candidature candidature = candidatureService.postulerOffreEmploi(request.getCandidatId(), request.getEmploiId());
 	            return ResponseEntity.ok(candidature);
 	        } catch (NotFoundException e) {
-	            // Gérer l'exception lorsque le candidat ou l'offre d'emploi n'est pas trouvé
 	            return ResponseEntity.notFound().build();
 	        } catch (Exception e) {
-	            // Gérer les autres exceptions imprévues
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	        }
 	    }
@@ -77,17 +77,7 @@ public class CandidatureController {
         return ResponseEntity.ok(candidatures);
     }
     
-    
-    @PostMapping("/offres-emploi/{emploiId}/scraping-linkedin")
-    public ResponseEntity<String> scraperLinkedInPourProfiles(@PathVariable Integer emploiId) {
-        Emploi emploi = emploiRepository.findById(emploiId)
-                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
-
-        candidatureService.scraperLinkedInPourProfiles(emploi);
-
-        return ResponseEntity.ok("Scraping des profils LinkedIn effectué avec succès.");
-    }
-
+   
     
     
 }

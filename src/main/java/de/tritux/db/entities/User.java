@@ -3,7 +3,6 @@ package de.tritux.db.entities;
 
 import javax.persistence.CascadeType;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,13 +25,11 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 
 
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "user_type")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -127,7 +124,14 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
+    
+    public Admin getAdmin() {
+        return admin;
+    }
 
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
     
 }
 
