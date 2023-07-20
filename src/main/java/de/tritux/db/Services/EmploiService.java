@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Emploi;
-import de.tritux.db.entities.User;
+
 import de.tritux.db.models.EmploiDto;
-import de.tritux.db.models.UserDto;
 import de.tritux.db.repositories.EmploiRepository;
 
 @Service
@@ -33,8 +32,8 @@ public class EmploiService {
 			return emploiRepository;
 		}
 		
-		public Emploi obtenirOffreEmploiParId(Integer offreId) {
-	        return emploiRepository.findById(offreId)
+		public Emploi obtenirOffreEmploiParId(Integer emploiId) {
+	        return emploiRepository.findById(emploiId)
 	                .orElseThrow(() -> new de.tritux.db.Exception.NotFoundException("Offre d'emploi introuvable"));
 	    }
 		
@@ -43,8 +42,8 @@ public class EmploiService {
 	    }
 
 		
-		public Emploi modifierOffreEmploiParId(Integer offreId, Emploi emploiModifier) {
-	        Emploi emploi = emploiRepository.findById(offreId)
+		public Emploi modifierOffreEmploiParId(Integer emploiId, Emploi emploiModifier) {
+	        Emploi emploi = emploiRepository.findById(emploiId)
 	                .orElseThrow(() -> new IllegalArgumentException("Offre d'emploi introuvable"));
 
 	        emploi.setTitre(emploiModifier.getTitre());
@@ -54,8 +53,8 @@ public class EmploiService {
 	        return emploiRepository.save(emploi);
 	    }
 
-	    public void supprimerOffreEmploiParId(Integer offreId) {
-	        Emploi emploi = emploiRepository.findById(offreId)
+	    public void supprimerOffreEmploiParId(Integer emploiId) {
+	        Emploi emploi = emploiRepository.findById(emploiId)
 	                .orElseThrow(() -> new IllegalArgumentException("Offre d'emploi introuvable"));
 
 	        emploiRepository.delete(emploi);

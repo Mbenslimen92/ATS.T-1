@@ -17,5 +17,8 @@ public class EmploiDto {
 	private Date dateDePublication;
 
     private String image;
+    
+    
+    private String candidatures;
 
 }

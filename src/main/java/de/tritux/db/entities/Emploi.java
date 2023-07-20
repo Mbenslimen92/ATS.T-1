@@ -7,6 +7,7 @@ import java.util.Set;
 
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+@Data
 @Entity
 public class Emploi {
     @Id
@@ -40,6 +45,17 @@ public class Emploi {
 
     private String experience;
 
+    
+    @ManyToOne
+    @JoinColumn(name = "recruteur_id")
+    private Recruteur recruteur;
+    
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "emploi", fetch = FetchType.LAZY)
+    private Set<Candidature> candidatures = new HashSet<>();
+    
+    
     
 
     public Emploi() {
@@ -186,19 +202,7 @@ public class Emploi {
    
     
 	
-	@ManyToOne
-    @JoinColumn(name = "recruteur_id")
-    private Recruteur recruteur;
-    
-    @OneToMany(mappedBy = "emploi")
-    private Set<Candidature> candidatures = new HashSet<>();
-    
-    
-    @ManyToMany
-    @JoinTable(name = "emploi_motcle",
-        joinColumns = @JoinColumn(name = "emploi_id"),
-        inverseJoinColumns = @JoinColumn(name = "motcle_id"))
-
+	
 
 	public void setMotsCles(List<String> motCles) {
 		// TODO Auto-generated method stub

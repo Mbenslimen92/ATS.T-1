@@ -8,7 +8,6 @@ import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Recruteur;
 
 import de.tritux.db.repositories.CandidatRepository;
-import de.tritux.db.repositories.UserRepository;
 
 @Service
 public class CandidatService extends UserService {

@@ -35,13 +35,23 @@ public ResponseEntity<List<EmploiDto>> getAllEmploi() {
 	return ResponseEntity.ok(emplois);
 }
 
- @GetMapping("/emplois/{offreId}")
-    public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer offreId) {
-        Emploi emploi = emploiService.obtenirOffreEmploiParId(offreId);
-        return ResponseEntity.ok(emploi);
+@GetMapping("/emplois/{emploiId}")
+public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer emploiId) {
+    Emploi emploi = emploiService.obtenirOffreEmploiParId(emploiId);
+    if (emploi == null) {
+        return ResponseEntity.notFound().build();
     }
+    return ResponseEntity.ok(emploi);
+}
 
-    @PostMapping("/empolis")
+
+
+
+
+
+
+
+    @PostMapping("/emplois")
     public ResponseEntity<Emploi> ajouterOffreEmploi(@RequestBody Emploi emploi) {
         Emploi nouvelleOffre = emploiService.ajouterOffreEmploi(emploi);
         return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleOffre);

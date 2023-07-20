@@ -3,6 +3,7 @@ package de.tritux.db;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;
@@ -12,7 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+@EnableTransactionManagement
 @SpringBootApplication
 public class Application {
     @Autowired

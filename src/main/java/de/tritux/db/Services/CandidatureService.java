@@ -2,17 +2,20 @@ package de.tritux.db.Services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import Postuler.ProfilLinkedIn;
 import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Candidature;
 import de.tritux.db.entities.Emploi;
+import de.tritux.db.entities.ProfilLinkedIn;
 import de.tritux.db.repositories.CandidatRepository;
 import de.tritux.db.repositories.CandidatureRepository;
 import de.tritux.db.repositories.EmploiRepository;
-
+import de.tritux.db.repositories.ProfilLinkedInRepository;
 
 import java.io.IOException;
 
@@ -48,34 +51,43 @@ public class CandidatureService {
     
     
 
-    public Candidature postulerOffreEmploi(Integer candidatId, Integer emploiId) {
-        Candidat candidat = candidatRepository.findById(candidatId)
-                .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
+    public ResponseEntity<String> postulerOffreEmploi(Integer candidatId, Integer emploiId) {
+        try {
+            Candidat candidat = candidatRepository.findById(candidatId)
+                    .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
 
-        Emploi emploi = emploiRepository.findById(emploiId)
-                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
+            Emploi emploi = emploiRepository.findById(emploiId)
+                    .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
 
-        boolean candidatureExist = candidatureRepository.existsByCandidatAndEmploi(candidat, emploi);
-        if (candidatureExist) {
-            throw new IllegalStateException("Le candidat a déjà postulé à cette offre d'emploi");
+            boolean candidatureExist = candidatureRepository.existsByCandidatAndEmploi(candidat, emploi);
+            if (candidatureExist) {
+                throw new IllegalStateException("Le candidat a déjà postulé à cette offre d'emploi");
+            }
+
+            Candidature candidature = new Candidature();
+            candidature.setCandidat(candidat);
+            candidature.setEmploi(emploi);
+            candidatureRepository.save(candidature);
+
+            return ResponseEntity.ok("Candidature effectuée avec succès.");
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        Candidature candidature = new Candidature();
-        candidature.setCandidat(candidat);
-        candidature.setEmploi(emploi);
-        candidatureRepository.save(candidature);
-
-        return candidature;
     }
+
 
     
 
 
   
     
-    /*@Autowired
+    
     private ProfilLinkedInRepository profilLinkedInRepository; 
-
+    @Transactional
     public void scraperLinkedInPourProfiles(Emploi emploi) {
         String motsClesString = emploi.getMotsCles();
         if (motsClesString == null || motsClesString.isEmpty()) {
@@ -108,7 +120,7 @@ public class CandidatureService {
                 System.out.println("Location: " + location);
                 System.out.println("------------------------");
 
-                ProfilLinkedIn profilLinkedIn = new ProfilLinkedIn(null, location, location, location);
+                ProfilLinkedIn profilLinkedIn = new ProfilLinkedIn();
                 profilLinkedIn.setName(name);
                 profilLinkedIn.setHeadline(headline);
                 profilLinkedIn.setLocation(location);
@@ -120,10 +132,11 @@ public class CandidatureService {
                     break;
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
     
 
 

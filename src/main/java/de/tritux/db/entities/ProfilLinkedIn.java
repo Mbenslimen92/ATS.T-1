@@ -1,10 +1,16 @@
-package Postuler;
+package de.tritux.db.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class ProfilLinkedIn {
 
@@ -17,14 +23,10 @@ public class ProfilLinkedIn {
     private String location;
 
    
-    public ProfilLinkedIn(Long id, String name, String headline, String location) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.headline = headline;
-		this.location = location;
-	}
+    
+	
 
+	
 	public Long getId() {
         return id;
     }

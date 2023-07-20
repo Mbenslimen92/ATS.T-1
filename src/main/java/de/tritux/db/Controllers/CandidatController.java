@@ -26,6 +26,8 @@ public class CandidatController {
 	
 	@Autowired
 	private CandidatRepository candidatRepository;
+	
+	
 	@GetMapping(value="/candidats")
 	public List<Candidat> Candidats(){
 		return candidatRepository.findAll();

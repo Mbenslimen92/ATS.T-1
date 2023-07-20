@@ -1,4 +1,4 @@
-package Postuler;
+package de.tritux.db.models;
 
 public class PostulerRequest {
     private Integer candidatId;

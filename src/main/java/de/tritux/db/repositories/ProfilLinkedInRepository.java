@@ -2,8 +2,9 @@ package de.tritux.db.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import Postuler.ProfilLinkedIn;
+import de.tritux.db.entities.ProfilLinkedIn;
 
-/*public interface ProfilLinkedInRepository extends JpaRepository<ProfilLinkedIn, Integer>{
 
-}*/
+public interface ProfilLinkedInRepository extends JpaRepository<ProfilLinkedIn, Integer>{
+
+}
