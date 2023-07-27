@@ -1,9 +1,6 @@
 package de.tritux.db.models;
 
-import java.util.Date;
-
 import lombok.Data;
-
 
 @Data
 public class EmploiDto {
@@ -14,7 +11,7 @@ public class EmploiDto {
 
 	private String titre;
 	 
-	private Date dateDePublication;
+	private String dateDePublication;
 
     private String image;
     
