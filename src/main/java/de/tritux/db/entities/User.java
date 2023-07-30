@@ -4,6 +4,8 @@ package de.tritux.db.entities;
 import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +18,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import de.tritux.db.Role;
+import org.springframework.security.core.GrantedAuthority;
+
+import de.tritux.db.Auth.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.Collection;
+
 
 @Data
 @AllArgsConstructor
@@ -41,17 +45,14 @@ public class User {
     private Long tel;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ROLE",
-            joinColumns = {
-                    @JoinColumn(name = "USER_ID")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "ROLE_ID")
-            }
-    )
-    private Set<Role> role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+    
+    
     public User(Integer id, String nom, String prenom, String mail, Long tel, String password) {
         this.id = id;
         this.nom = nom;
@@ -113,18 +114,9 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(Set<Role> role) {
-        this.role = role;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
     
+
+   
     public Admin getAdmin() {
         return admin;
     }
@@ -132,7 +124,28 @@ public class User {
     public void setAdmin(Admin admin) {
         this.admin = admin;
     }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return role.getAuthorities();
+    }
     
+    
+    public boolean isAccountNonExpired() {
+      return true;
+    }
+
+    
+    public boolean isAccountNonLocked() {
+      return true;
+    }
+
+    
+    public boolean isCredentialsNonExpired() {
+      return true;
+    }
+
+    public boolean isEnabled() {
+      return true;
+    }
 }
 
 

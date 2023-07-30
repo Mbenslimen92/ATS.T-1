@@ -19,7 +19,7 @@ public class Application {
     @Autowired
     private UserRepository userRepository;
 
-    @PostConstruct
+    
     public void initUsers() {
         if (userRepository.count() == 0) {
             List<User> users = Stream.of(

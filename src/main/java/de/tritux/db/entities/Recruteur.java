@@ -15,20 +15,16 @@ public class Recruteur extends User {
 	
 	private String matricule;
 	
-	private LocalDate DOB = LocalDate.of(2000, 11, 11);
 	
-	 private String RecruteurtRole;
 	
 	
 	
 	
 	
 	public Recruteur(Integer id, String nom, String prenom, String mail, Long tel, String password, String matricule,
-			LocalDate dOB, String recruteurtRole, Set<Emploi> emplois) {
+			 Set<Emploi> emplois) {
 		super(id, nom, prenom, mail, tel, password);
 		this.matricule = matricule;
-		setDOB(dOB);
-		RecruteurtRole = recruteurtRole;
 		this.emplois = emplois;
 	}
 
@@ -52,28 +48,13 @@ public class Recruteur extends User {
 	
 
 	
-	public String getRecruteurtRole() {
-		return RecruteurtRole;
-	}
-
-
-	public void setRecruteurtRole(String recruteurtRole) {
-		RecruteurtRole = recruteurtRole;
-	}
 
 
 
 
 
 
-	public LocalDate getDOB() {
-		return DOB;
-	}
-
-
-	public void setDOB(LocalDate dOB) {
-		DOB = dOB;
-	}
+	
 
 
 

@@ -1,11 +1,8 @@
 package de.tritux.db.Services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -14,9 +11,6 @@ import de.tritux.db.entities.User;
 import de.tritux.db.models.UserDto;
 import de.tritux.db.repositories.AdminRepository;
 import de.tritux.db.repositories.UserRepository;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 
 @Service

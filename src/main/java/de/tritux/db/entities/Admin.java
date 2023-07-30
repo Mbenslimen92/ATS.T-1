@@ -12,17 +12,9 @@ import javax.persistence.Table;
 @Table(name = "admin")
 public class Admin extends User {
     
-    private String adminRole;
     
-    // ...
 
-    public String getAdminRole() {
-        return adminRole;
-    }
-
-    public void setAdminRole(String adminRole) {
-        this.adminRole = adminRole;
-    }
+    
 
   
 
