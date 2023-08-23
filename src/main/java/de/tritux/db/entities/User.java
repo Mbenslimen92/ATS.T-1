@@ -1,20 +1,16 @@
 package de.tritux.db.entities;
 
 
-import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Collection;
+import java.util.Collections;
 
 
 @Data
@@ -53,14 +50,16 @@ public class User {
     private Admin admin;
     
     
-    public User(Integer id, String nom, String prenom, String mail, Long tel, String password) {
+    public User(Integer id, String nom, String prenom, String mail, Long tel, String password, Role role) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.tel = tel;
         this.password = password;
+        this.role = role;
     }
+
 
     public User() {
         // Default constructor
@@ -125,8 +124,9 @@ public class User {
         this.admin = admin;
     }
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return role.getAuthorities();
+        return role != null ? role.getAuthorities() : Collections.emptyList();
     }
+
     
     
     public boolean isAccountNonExpired() {
@@ -146,6 +146,7 @@ public class User {
     public boolean isEnabled() {
       return true;
     }
+    
 }
 
 

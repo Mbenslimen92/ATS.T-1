@@ -33,8 +33,8 @@ public class EmploiService {
 		}
 		
 		public Emploi obtenirOffreEmploiParId(Integer emploiId) {
-	        return emploiRepository.findById(emploiId)
-	                .orElseThrow(() -> new de.tritux.db.Exception.NotFoundException("Offre d'emploi introuvable"));
+	        return emploiRepository.findById(emploiId).get();
+	               // .orElseThrow(() -> new IllegalArgumentException("Offre d'emploi introuvable"));
 	    }
 		
 	    public Emploi ajouterOffreEmploi(Emploi emploi) {
@@ -69,8 +69,7 @@ public class EmploiService {
 	        	emploiDto.setId(emploi.getId());
 	        	emploiDto.setTitre(emploi.getTitre());
 	        	emploiDto.setDateDePublication(emploi.getDateDePublication());
-	        	emploiDto.setImage(emploi.getImage());
-
+	        	emploiDto.setDescription(emploi.getDescription());
 	        	return emploiDto;
 	        	
 }).collect(Collectors.toList());

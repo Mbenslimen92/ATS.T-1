@@ -80,15 +80,6 @@ public class CandidatureController {
     }
     
 
-    @PostMapping("/offres-emploi/{emploiId}/scraping-linkedin")
-    public ResponseEntity<String> scraperLinkedInPourProfiles(@PathVariable Integer emploiId) {
-        Emploi emploi = emploiRepository.findById(emploiId)
-                .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
-
-        candidatureService.scraperLinkedInPourProfiles(emploi);
-
-        return ResponseEntity.ok("Scraping des profils LinkedIn effectué avec succès.");
-    }
     
     
 }

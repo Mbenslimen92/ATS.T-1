@@ -1,6 +1,5 @@
 package de.tritux.db.Auth;
 
-import de.tritux.db.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +11,8 @@ public class AuthRequest {
 	
 
 	private String nom;
+	
+	private String role;
 
 	private String password;
 

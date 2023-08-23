@@ -25,6 +25,7 @@ import de.tritux.db.repositories.RecruteurRepository;
 
 
 
+@CrossOrigin("*")
 
 @RequestMapping("/recruteurs")
 @RestController

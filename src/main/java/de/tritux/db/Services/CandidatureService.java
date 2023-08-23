@@ -11,16 +11,13 @@ import de.tritux.db.Exception.NotFoundException;
 import de.tritux.db.entities.Candidat;
 import de.tritux.db.entities.Candidature;
 import de.tritux.db.entities.Emploi;
-import de.tritux.db.entities.ProfilLinkedIn;
 import de.tritux.db.repositories.CandidatRepository;
 import de.tritux.db.repositories.CandidatureRepository;
 import de.tritux.db.repositories.EmploiRepository;
-import de.tritux.db.repositories.ProfilLinkedInRepository;
 
 import java.io.IOException;
 
 import java.util.List;
-import java.net.URLEncoder;
 
 
 import org.jsoup.Jsoup;
@@ -86,57 +83,7 @@ public class CandidatureService {
   
     
     
-    private ProfilLinkedInRepository profilLinkedInRepository; 
-    @Transactional
-    public void scraperLinkedInPourProfiles(Emploi emploi) {
-        String motsClesString = emploi.getMotsCles();
-        if (motsClesString == null || motsClesString.isEmpty()) {
-            System.out.println("Aucun mot-clé spécifié dans l'offre d'emploi.");
-            return;
-        }
-
-        List<String> motsCles = Arrays.asList(motsClesString.split("\\s*,\\s*"));
-
-        StringBuilder searchKeywords = new StringBuilder();
-        for (String motCle : motsCles) {
-            searchKeywords.append(motCle).append(" ");
-        }
-
-        String searchUrl = "https://www.linkedin.com/search/results/people/?keywords=" + searchKeywords.toString().trim().replace(" ", "%20");
-
-        int resultCount = 0;
-
-        try {
-            Document document = Jsoup.connect(searchUrl).get();
-            Elements profileElements = document.select(".search-result__wrapper");
-
-            for (Element element : profileElements) {
-                String name = element.select(".actor-name").text();
-                String headline = element.select(".subline-level-1").text();
-                String location = element.select(".subline-level-2").text();
-
-                System.out.println("Name: " + name);
-                System.out.println("Headline: " + headline);
-                System.out.println("Location: " + location);
-                System.out.println("------------------------");
-
-                ProfilLinkedIn profilLinkedIn = new ProfilLinkedIn();
-                profilLinkedIn.setName(name);
-                profilLinkedIn.setHeadline(headline);
-                profilLinkedIn.setLocation(location);
-
-                profilLinkedInRepository.save(profilLinkedIn);
-
-                resultCount++;
-                if (resultCount >= 10) {
-                    break;
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
     
 
 

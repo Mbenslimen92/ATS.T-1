@@ -11,11 +11,12 @@ public class EmploiDto {
 
 	private String titre;
 	 
+	private String description ;
+	 
 	private String dateDePublication;
 
     private String image;
     
     
-    private String candidatures;
 
 }

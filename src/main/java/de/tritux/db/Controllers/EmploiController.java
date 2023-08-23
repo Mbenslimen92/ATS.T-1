@@ -36,38 +36,37 @@ public ResponseEntity<List<EmploiDto>> getAllEmploi() {
 }
 
 @GetMapping("/emplois/{emploiId}")
-public ResponseEntity<Emploi> obtenirOffreEmploiParId(@PathVariable Integer emploiId) {
-    Emploi emploi = emploiService.obtenirOffreEmploiParId(emploiId);
-    if (emploi == null) {
+public Emploi obtenirOffreEmploiParId(@PathVariable Integer emploiId) {
+	
+	Emploi emploi = emploiService.obtenirOffreEmploiParId(emploiId);
+  /*  if (emploi == null) {
         return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(emploi);
+    }*/
+    System.out.println("Id ***** "+emploiId+" Date pub "+emploi.getDateDePublication());
+    return emploi;
 }
-
-
-
-
-
-
 
 
     @PostMapping("/emplois")
     public ResponseEntity<Emploi> ajouterOffreEmploi(@RequestBody Emploi emploi) {
         Emploi nouvelleOffre = emploiService.ajouterOffreEmploi(emploi);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleOffre);
+       return ResponseEntity.status(HttpStatus.CREATED).body(nouvelleOffre);
+      
     }
 
     @PutMapping("/emplois/{emploiId}")
-    public ResponseEntity<Emploi> modifierOffreEmploiParId(@PathVariable Integer offreId, @RequestBody Emploi emploiModifie) {
-        Emploi emploiMisAJour = emploiService.modifierOffreEmploiParId(offreId, emploiModifie);
+    public ResponseEntity<Emploi> modifierOffreEmploiParId(@PathVariable Integer emploiId, @RequestBody Emploi emploiModifie) {
+        Emploi emploiMisAJour = emploiService.modifierOffreEmploiParId(emploiId, emploiModifie);
         return ResponseEntity.ok(emploiMisAJour);
     }
 
+
     @DeleteMapping("/emplois/{emploiId}")
-    public ResponseEntity<Void> supprimerOffreEmploiParId(@PathVariable Integer offreId) {
-    	emploiService.supprimerOffreEmploiParId(offreId);
+    public ResponseEntity<Void> supprimerOffreEmploiParId(@PathVariable Integer emploiId) {
+        emploiService.supprimerOffreEmploiParId(emploiId);
         return ResponseEntity.noContent().build();
     }
+
     
    
 

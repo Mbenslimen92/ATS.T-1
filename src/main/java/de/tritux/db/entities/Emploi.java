@@ -24,9 +24,11 @@ public class Emploi {
 
     private String titre;
     private String description;
+    private String mission;
+    private String ExigencesDeLemploi;
+
     private String dateDePublication;
     private String motsCles;
-    private String image;
     private String natureTravail;
     private String education;
     private String competence;
@@ -44,20 +46,29 @@ public class Emploi {
     
     
     @OneToMany(mappedBy = "emploi", fetch = FetchType.LAZY)
+    @JsonIgnore
+
     private Set<Candidature> candidatures = new HashSet<>();
 
 
-	public Emploi(Integer id, String titre, String description, String dateDePublication, String motsCles, String image,
-			String natureTravail, String education, String competence, String experience, String localisation,
-			String postes_vacants, String type_emploi, String genre, String date_expiration, Recruteur recruteur,
-			Set<Candidature> candidatures) {
+	
+	
+
+
+	
+
+	public Emploi(Integer id, String titre, String description, String mission, String exigencesDeLemploi,
+			String dateDePublication, String motsCles, String natureTravail, String education, String competence,
+			String experience, String localisation, String postes_vacants, String type_emploi, String genre,
+			String date_expiration, Recruteur recruteur, Set<Candidature> candidatures) {
 		super();
 		this.id = id;
 		this.titre = titre;
 		this.description = description;
+		this.mission = mission;
+		ExigencesDeLemploi = exigencesDeLemploi;
 		this.dateDePublication = dateDePublication;
 		this.motsCles = motsCles;
-		this.image = image;
 		this.natureTravail = natureTravail;
 		this.education = education;
 		this.competence = competence;
@@ -128,14 +139,7 @@ public class Emploi {
 	}
 
 
-	public String getImage() {
-		return image;
-	}
-
-
-	public void setImage(String image) {
-		this.image = image;
-	}
+	
 
 
 	public String getNatureTravail() {
@@ -245,6 +249,26 @@ public class Emploi {
 
 	public void setCandidatures(Set<Candidature> candidatures) {
 		this.candidatures = candidatures;
+	}
+
+
+	public String getMission() {
+		return mission;
+	}
+
+
+	public void setMission(String mission) {
+		this.mission = mission;
+	}
+
+
+	public String getExigencesDeLemploi() {
+		return ExigencesDeLemploi;
+	}
+
+
+	public void setExigencesDeLemploi(String exigencesDeLemploi) {
+		ExigencesDeLemploi = exigencesDeLemploi;
 	}
     
 	

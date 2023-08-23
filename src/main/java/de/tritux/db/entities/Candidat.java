@@ -14,11 +14,9 @@ import lombok.AllArgsConstructor;
 @Entity
 public class Candidat extends User {
 
-    private String resume; 
     private String universite; 
     private String currentJob; 
     private String profilLinkedIn;
-    private String CandidatRole;
     private String Skills;
     // ...
 
@@ -30,7 +28,7 @@ public class Candidat extends User {
     
     
 
-    
+ 
 
 
     
@@ -39,13 +37,7 @@ public class Candidat extends User {
         super();
     }
 
-    public String getResume() {
-        return resume;
-    }
-
-    public void setResume(String resume) {
-        this.resume = resume;
-    }
+    
 
     public String getUniversite() {
         return universite;
@@ -93,13 +85,7 @@ public class Candidat extends User {
 		
 	}
 
-	public String getCandidatRole() {
-		return CandidatRole;
-	}
-
-	public void setCandidatRole(String candidatRole) {
-		CandidatRole = candidatRole;
-	}
+	
 
 	public String getSkills() {
 		return Skills;
@@ -107,5 +93,13 @@ public class Candidat extends User {
 
 	public void setSkills(String skills) {
 		Skills = skills;
+	}
+
+	public String getProfilLinkedIn() {
+		return profilLinkedIn;
+	}
+
+	public void setProfilLinkedIn(String profilLinkedIn) {
+		this.profilLinkedIn = profilLinkedIn;
 	}
 }
