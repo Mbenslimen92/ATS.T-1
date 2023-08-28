@@ -41,7 +41,7 @@ public class Emploi {
     
     @ManyToOne
     @JoinColumn(name = "recruteur_id")
-    private Recruteur recruteur;
+    private User recruteur;
     
     
     
@@ -60,7 +60,7 @@ public class Emploi {
 	public Emploi(Integer id, String titre, String description, String mission, String exigencesDeLemploi,
 			String dateDePublication, String motsCles, String natureTravail, String education, String competence,
 			String experience, String localisation, String postes_vacants, String type_emploi, String genre,
-			String date_expiration, Recruteur recruteur, Set<Candidature> candidatures) {
+			String date_expiration, User recruteur, Set<Candidature> candidatures) {
 		super();
 		this.id = id;
 		this.titre = titre;
@@ -232,12 +232,12 @@ public class Emploi {
 	}
 
 
-	public Recruteur getRecruteur() {
+	public User getRecruteur() {
 		return recruteur;
 	}
 
 
-	public void setRecruteur(Recruteur recruteur) {
+	public void setRecruteur(User recruteur) {
 		this.recruteur = recruteur;
 	}
 

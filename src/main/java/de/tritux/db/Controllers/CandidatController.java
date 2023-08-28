@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/candidats")
+@CrossOrigin("*")
 public class CandidatController {
 
     private final CandidatService candidatService;

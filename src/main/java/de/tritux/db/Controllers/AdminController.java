@@ -19,10 +19,11 @@ import de.tritux.db.Services.AdminService;
 import de.tritux.db.entities.Admin;
 
 
-@CrossOrigin("*")
 
-@RequestMapping("/admins")
 @RestController
+@RequestMapping("/admins")
+
+@CrossOrigin("*")
 public class AdminController {
     
     private final AdminService adminService;

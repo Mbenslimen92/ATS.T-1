@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Services.EmploiService;
@@ -22,13 +23,16 @@ import de.tritux.db.models.UserDto;
 @RestController
 @CrossOrigin("*")
 public class EmploiController {
+	
     private final EmploiService emploiService;
 
     public EmploiController(EmploiService emploiService) {
         this.emploiService = emploiService;
     }
     
-    
+
+
+
 @GetMapping("/emplois")
 public ResponseEntity<List<EmploiDto>> getAllEmploi() {
 	List<EmploiDto> emplois = emploiService.getAllEmploi();

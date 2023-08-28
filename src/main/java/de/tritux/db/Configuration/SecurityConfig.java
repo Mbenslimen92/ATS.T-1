@@ -3,6 +3,7 @@ package de.tritux.db.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,12 +14,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import de.tritux.db.Jwt.JwtFilter;
 import de.tritux.db.Services.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin("*")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	
@@ -44,12 +48,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+	
+	
+   
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/authenticate")
-                .permitAll().anyRequest().authenticated().and().exceptionHandling().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST,"/authenticate").permitAll()
+        .antMatchers(HttpMethod.GET,"*/**").permitAll()
+         .antMatchers(HttpMethod.POST,"/authenticate").permitAll()
+        .antMatchers(HttpMethod.DELETE,"*/**").hasRole("ADMIN");
+                
+		/*http.csrf().disable()
+        .authorizeRequests()
+            .antMatchers(HttpMethod.GET, "/public/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/postOnly/**").authenticated()
+            .antMatchers(HttpMethod.PUT, "/api/putOnly/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/api/delete/**").hasRole("ADMIN")
+            .anyRequest().denyAll();*/
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

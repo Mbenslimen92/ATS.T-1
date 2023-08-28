@@ -22,10 +22,11 @@ import de.tritux.db.Services.AdminService;
 import de.tritux.db.entities.User;
 import de.tritux.db.models.UserDto;
 
-@CrossOrigin("*")
+
 
 @RestController
 @RequestMapping
+@CrossOrigin("*")
 public class UserController {
 	
 	private final AdminService adminService;
