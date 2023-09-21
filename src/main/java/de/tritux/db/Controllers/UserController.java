@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import de.tritux.db.Services.AdminService;
 import de.tritux.db.entities.User;
 import de.tritux.db.models.UserDto;
@@ -63,8 +62,25 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User updatedUser) {
 	    User currentUser = adminService.getUserById(id);
 	    if (currentUser != null) {
-	        updatedUser.setId(id); // Ensure the ID is preserved
-	        User savedUser = adminService.saveUser(updatedUser); // Assumes saveUser updates when ID already exists
+	        updatedUser.setId(id); 
+	        User savedUser = adminService.saveUser(updatedUser); 
+	        return ResponseEntity.ok(savedUser);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
+	
+	@GetMapping("/users/updateRole/{id}/{role}")
+	public ResponseEntity<User> updateRoleUser(@PathVariable Integer id, @PathVariable String role) {
+	  
+
+	    User currentUser = adminService.getUserById(id);
+
+	    if (currentUser != null) {
+	    	currentUser.setId(id); // Ensure the ID is preserved
+	    	currentUser.setRole(role);
+	    System.out.println(" **** Role modifé "+ currentUser.getRole());
+	        User savedUser = adminService.saveUser(currentUser);
 	        return ResponseEntity.ok(savedUser);
 	    } else {
 	        return ResponseEntity.notFound().build();

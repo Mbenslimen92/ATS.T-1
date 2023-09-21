@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 
 import javax.persistence.OneToMany;
 
-import de.tritux.db.Auth.Role;
 
 @Entity
 public class Recruteur extends User {
@@ -22,7 +21,7 @@ public class Recruteur extends User {
 	
 	
 	
-	public Recruteur(Integer id, String nom, String prenom, String mail, Long tel, String password,Role role, String matricule,
+	public Recruteur(Integer id, String nom, String prenom, String mail, Long tel, String password,String role, String matricule,
 			 Set<Emploi> emplois) {
 		super(id, nom, prenom, mail, tel, password , role);
 		this.matricule = matricule;

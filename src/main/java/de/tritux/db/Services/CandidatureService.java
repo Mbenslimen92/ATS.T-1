@@ -48,35 +48,7 @@ public class CandidatureService {
     
     
 
-    public ResponseEntity<String> postulerOffreEmploi(Integer candidatId, Integer emploiId) {
-        try {
-            Candidat candidat = candidatRepository.findById(candidatId)
-                    .orElseThrow(() -> new NotFoundException("Candidat introuvable"));
-
-            Emploi emploi = emploiRepository.findById(emploiId)
-                    .orElseThrow(() -> new NotFoundException("Offre d'emploi introuvable"));
-
-            boolean candidatureExist = candidatureRepository.existsByCandidatAndEmploi(candidat, emploi);
-            if (candidatureExist) {
-                throw new IllegalStateException("Le candidat a déjà postulé à cette offre d'emploi");
-            }
-
-            Candidature candidature = new Candidature();
-            candidature.setCandidat(candidat);
-            candidature.setEmploi(emploi);
-            candidatureRepository.save(candidature);
-
-            return ResponseEntity.ok("Candidature effectuée avec succès.");
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-
+    
     
 
 

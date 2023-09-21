@@ -1,5 +1,6 @@
 package de.tritux.db.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,8 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
 
 
+@Data
 @Entity
 @Table(name = "candidature")
 public class Candidature {
@@ -17,7 +20,14 @@ public class Candidature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-   
+    @Column(name = "nom_candidat")
+    private String nomCandidat;
+    @Column(name = "prenom_candidat")
+    private String prenomCandidat;
+
+    @Column(name = "email_candidat")
+    private String emailCandidat;
+
 
     public Candidature(int id, Candidat candidat, Emploi emploi) {
 		super();

@@ -1,5 +1,7 @@
 package de.tritux.db.Auth;
 
+import javax.print.DocFlavor.STRING;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ public class AuthRequest {
 	
 
 	private String nom;
+	
+	private String mail;
 	
 	private String role;
 

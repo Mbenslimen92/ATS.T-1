@@ -18,7 +18,6 @@ public class Candidat extends User {
     private String currentJob; 
     private String profilLinkedIn;
     private String Skills;
-    // ...
 
    
     @JsonIgnore

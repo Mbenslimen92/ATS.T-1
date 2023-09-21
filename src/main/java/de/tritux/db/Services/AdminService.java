@@ -54,6 +54,8 @@ public class AdminService extends UserService {
         	userDto.setId(user.getId());
         	userDto.setNom(user.getNom());
         	userDto.setMail(user.getMail());
+        	userDto.setRole(user.getRole());
+
         	
         	return userDto;
         	

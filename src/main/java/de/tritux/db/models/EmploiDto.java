@@ -17,6 +17,8 @@ public class EmploiDto {
 
     private String image;
     
+    private String motsCles;
+    
     
 
 }

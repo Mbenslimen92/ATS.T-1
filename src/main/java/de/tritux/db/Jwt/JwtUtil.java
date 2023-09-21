@@ -60,28 +60,9 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
-   /* private String createToken(Map<String, Object> claims, User user) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String userJson = "";
-
-        try {
-            userJson = objectMapper.writeValueAsString(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Handle the error appropriately.
-            // Maybe return a null or throw a specific exception.
-        }
-
-        return Jwts.builder()
-            .setClaims(claims)
-            .claim("user", userJson)  // Embedding the entire User object as a JSON string.
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // Set expiration to 10 hours.
-            .signWith(SignatureAlgorithm.HS256, secret)
-            .compact();
-    }*/
+   
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String Nom = extractUsername(token);
-        return (Nom.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String Mail = extractUsername(token);
+        return (Mail.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

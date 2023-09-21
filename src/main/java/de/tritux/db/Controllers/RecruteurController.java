@@ -38,28 +38,24 @@ public class RecruteurController {
         this.recruteurService = recruteurService;
     }
 
-    // Get all Recruteurs
     @GetMapping
     @PreAuthorize("hasAuthority('recruteur:read')")
     public List<Recruteur> getAllRecruteurs() {
         return recruteurService.getAllRecruteur();
     }
 
-    // Create a new Recruteur
     @PostMapping
     @PreAuthorize("hasAuthority('recruteur:create')")
     public Recruteur createRecruteur(@RequestBody Recruteur recruteur) {
         return recruteurService.saveRecruteur(recruteur);
     }
 
-    // Get a single Recruteur
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('recruteur:read')")
     public Recruteur getRecruteurById(@PathVariable Integer id) {
         return recruteurService.getOne(id);
     }
 
-    // Update a Recruteur
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('recruteur:update')")
     public Recruteur updateRecruteur(@PathVariable Integer id, @RequestBody Recruteur recruteurDetails) {
@@ -70,7 +66,6 @@ public class RecruteurController {
         return recruteurService.updateRecruteur(recruteur);
     }
 
-    // Delete a Recruteur
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('recruteur:delete')")
     public ResponseEntity<?> deleteRecruteur(@PathVariable Integer id) {

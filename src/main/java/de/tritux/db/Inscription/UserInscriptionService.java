@@ -7,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.tritux.db.Exception.UserAlreadyExistsException;
-import de.tritux.db.Services.UserService;
 import de.tritux.db.entities.User;
 import de.tritux.db.repositories.UserRepository;
 
 
 @Service
-public class UserInscription {
+public class UserInscriptionService {
 
 	
 	    private final UserRepository userRepository;
 
 	    @Autowired
-	    public UserInscription(UserRepository userRepository) {
+	    public UserInscriptionService(UserRepository userRepository) {
 	        this.userRepository = userRepository;
 	    }
 

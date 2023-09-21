@@ -16,7 +16,6 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import de.tritux.db.Auth.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -42,15 +41,14 @@ public class User {
     private Long tel;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
     
     
-    public User(Integer id, String nom, String prenom, String mail, Long tel, String password, Role role) {
+    public User(Integer id, String nom, String prenom, String mail, Long tel, String password, String role) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -123,9 +121,7 @@ public class User {
     public void setAdmin(Admin admin) {
         this.admin = admin;
     }
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role != null ? role.getAuthorities() : Collections.emptyList();
-    }
+   
 
     
     
@@ -146,6 +142,7 @@ public class User {
     public boolean isEnabled() {
       return true;
     }
+    
     
 }
 

@@ -13,16 +13,16 @@ import de.tritux.db.entities.User;
 @RequestMapping("/inscription")
 public class InscriptionController {
 
-    private final UserInscription userInscription;
+    private final UserInscriptionService userInscriptionService;
 
-    public InscriptionController(UserInscription userInscription) {
-        this.userInscription = userInscription;
+    public InscriptionController(UserInscriptionService userInscriptionService) {
+        this.userInscriptionService = userInscriptionService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/reg")
     public ResponseEntity<String> register(@RequestBody User user) {
         try {
-            boolean registrationSuccess = userInscription.register(user);
+            boolean registrationSuccess = userInscriptionService.register(user);
 
             if (registrationSuccess) {
                 return ResponseEntity.ok("Inscription réussie !");
@@ -37,7 +37,7 @@ public class InscriptionController {
     @PostMapping("/validate")
     public ResponseEntity<String> validate(@RequestBody User user) {
         try {
-            boolean validationSuccess = userInscription.validateRegistration(user);
+            boolean validationSuccess = userInscriptionService.validateRegistration(user);
 
             if (validationSuccess) {
                 return ResponseEntity.ok("Validation réussie !");

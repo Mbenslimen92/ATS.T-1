@@ -32,28 +32,24 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    // Get all Admins
     @GetMapping
     @PreAuthorize("hasAuthority('admin:read')")
     public List<Admin> getAllAdmins() {
         return adminService.getAllAdmin();
     }
 
-    // Create a new Admin
     @PostMapping
     @PreAuthorize("hasAuthority('admin:create')")
     public Admin createNewAdmin(@RequestBody Admin admin) {
         return adminService.saveAdmin(admin);
     }
 
-    // Get a single Admin
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:read')")
     public Admin getAdminById(@PathVariable Integer id) {
         return adminService.getOne(id);
     }
 
-    // Update a Admin
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:update')")
     public Admin updateAdminById(@PathVariable Integer id, @RequestBody Admin adminDetails) {
@@ -62,7 +58,6 @@ public class AdminController {
         return adminService.updateAdmin(admin);
     }
 
-    // Delete a Admin
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('admin:delete')")
     public ResponseEntity<?> deleteAdminById(@PathVariable Integer id) {
@@ -73,38 +68,7 @@ public class AdminController {
 
 
 
-	/*@GetMapping(value="/admins")
-	public List<Admin> getAdmins(){
-		return adminService.getAllAdmin();
-	}
-
-	@GetMapping(value="/admins/{id}")
-	public Admin getAdmin(@PathVariable(name="id") Integer id){
-		return adminService.getOne(id);
-	}
-
-	@PutMapping(value="/admins/{id}")
-	public Admin updateAdmin(@PathVariable(name="id") Integer id, @RequestBody Admin a){
-		a.setId(id);
-		return adminService.updateAdmin(a);
-	}
-
-	@PostMapping(value="/admins")
-	public Admin saveAdmin(@RequestBody Admin a){
-		return adminService.saveAdmin(a);
-	}
-
-	@DeleteMapping(value="/admins/{id}")
-	public void deleteAdmin(@PathVariable(name="id") Integer id){
-		adminService.deleteById(id);
-	}
-
-	@GetMapping("/users")
-	public ResponseEntity<List<UserDto>> getAllUsers() {
-		
-		List<UserDto> users = adminService.getAllUsers();
-		return ResponseEntity.ok(users);
-	}*/
+	
 
 	
 

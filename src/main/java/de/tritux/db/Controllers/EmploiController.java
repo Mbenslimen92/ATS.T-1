@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tritux.db.Services.EmploiService;
 import de.tritux.db.entities.Emploi;
 import de.tritux.db.models.EmploiDto;
-import de.tritux.db.models.UserDto;
 
 @RestController
 @CrossOrigin("*")
@@ -71,7 +69,13 @@ public Emploi obtenirOffreEmploiParId(@PathVariable Integer emploiId) {
         return ResponseEntity.noContent().build();
     }
 
-    
+    @GetMapping("/emplois/Search/{datePublication}")
+    public ResponseEntity<List<Emploi>> getAllEmploiSearch(@PathVariable String datePublication) {
+    	System.out.println("Date === "+datePublication);
+    	List<Emploi> emplois = emploiService.obtenirOffreEmploiParDatePublication(datePublication);
+    	System.out.println("Nb res "+emplois.size());
+    	return ResponseEntity.ok(emplois);
+    } 
    
 
     }

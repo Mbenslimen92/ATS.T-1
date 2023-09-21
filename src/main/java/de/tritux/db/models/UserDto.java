@@ -9,4 +9,5 @@ public class UserDto {
 	private Integer id;
 	private String nom;
 	private String mail;
+	private String role;
 }
