@@ -19,8 +19,7 @@ import java.util.List;
 public class CandidatService {
     private final CandidatRepository candidatRepository;
 
-    @Value("${file.storage.path}")
-    private String fileStoragePath;
+
 
     @Autowired
     public CandidatService(CandidatRepository candidatRepository) {

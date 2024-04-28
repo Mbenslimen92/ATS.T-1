@@ -59,13 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .antMatchers(HttpMethod.POST,"/authenticate").permitAll()
         .antMatchers(HttpMethod.DELETE,"*/**").hasRole("ADMIN");
                 
-		/*http.csrf().disable()
-        .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/public/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/postOnly/**").authenticated()
-            .antMatchers(HttpMethod.PUT, "/api/putOnly/**").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/api/delete/**").hasRole("ADMIN")
-            .anyRequest().denyAll();*/
+		
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

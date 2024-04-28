@@ -24,12 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import de.tritux.db.Services.CandidatService;
 import de.tritux.db.entities.Candidat;
-
+import lombok.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
-
+@Data
 @RestController
 @RequestMapping("/candidats")
 @CrossOrigin("*")

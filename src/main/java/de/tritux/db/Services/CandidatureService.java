@@ -44,25 +44,6 @@ public class CandidatureService {
     }
    
     
-    
-    
-    
-
-    
-    
-
-
-  
-    
-    
-    
-    
-
-
-
-
-
-
 
     public List<Candidature> getCandidaturesByEmploiId(Integer emploiId) {
         Emploi emploi = emploiRepository.findById(emploiId)

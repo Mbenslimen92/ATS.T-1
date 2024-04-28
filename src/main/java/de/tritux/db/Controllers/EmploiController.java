@@ -41,9 +41,7 @@ public ResponseEntity<List<EmploiDto>> getAllEmploi() {
 public Emploi obtenirOffreEmploiParId(@PathVariable Integer emploiId) {
 	
 	Emploi emploi = emploiService.obtenirOffreEmploiParId(emploiId);
-  /*  if (emploi == null) {
-        return ResponseEntity.notFound().build();
-    }*/
+  
     System.out.println("Id ***** "+emploiId+" Date pub "+emploi.getDateDePublication());
     return emploi;
 }
